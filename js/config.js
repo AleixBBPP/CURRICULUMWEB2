@@ -1,56 +1,102 @@
 // ====================================
 // CONFIGURACIÓN PERSONAL DEL PORTFOLIO
 // ====================================
-// INSTRUCCIONES: Cambia TODOS los datos aquí con tu información personal
-// Este es el ÚNICO archivo que necesitas editar para personalizar tu web
 
 const CONFIG = {
     
     // ===== INFORMACIÓN PERSONAL =====
     personal: {
-        name: "Aleix Bosch Pérez",                    // 👈 CAMBIA ESTO
-        title: "Economista e Inversor",         // 👈 Tu profesión/título
-        tagline: "Mentalidad analítica. Ambición emprendedora. Creación de valor sin excusas.",  // 👈 Tu frase personal
-        email: "aleixboschperez@gmail.com",                  // 👈 Tu email
-        phone: "+34 682735782",                      // 👈 Tu teléfono
-        location: "Girona, España",                    // 👈 Tu ubicación
-        avatar: "assets/images/avatar.jpg",            // 👈 Ruta a tu foto (crearemos esta carpeta después)
-        cvUrl: "#",                                    // 👈 Link a tu CV (por ahora déjalo así)
+        name: "Aleix Bosch Pérez",
+        title: "Economista e Inversor",
+        tagline: "Transformando análisis financiero en decisiones rentables con visión estratégica y pensamiento lógico",
+        email: "aleixboschperez@gmail.com",
+        phone: "+34 682735782",
+        location: "Girona, España",
+        avatar: "assets/images/avatar.jpg",
+        cvUrl: "#",
         
-        // Roles que se mostrarán con animación typing en el home
         roles: [
-            "Inversor multimercado",                  // 👈 Puedes cambiar o añadir más roles
+            "Inversor multimercado",
             "Analista de Empresas",
             "Economista",
-            "Divulgador económico político y filosófico"
+            "Divulgador económico"
         ]
     },
     
     // ===== REDES SOCIALES =====
     social: {
-        github: "https://github.com/AleixBBPP",        // 👈 CAMBIA con tu usuario de GitHub
-        linkedin: "https://www.linkedin.com/in/aleix-bosch-pérez-782174262/", // 👈 CAMBIA con tu LinkedIn
-        twitter: "",      // 👈 O déjalo vacío: ""
-        instagram: "",                                 // 👈 Opcional
+        github: "https://github.com/AleixBBPP",
+        linkedin: "https://www.linkedin.com/in/aleix-bosch-pérez-782174262/",
+        twitter: "",
+        instagram: "",
     },
     
-    // ===== SOBRE TI (ABOUT SECTION) =====
+    // ===== SOBRE TI =====
     about: {
-        image: "assets/images/about-photo.jpg",        // 👈 Foto tuya para la sección "Sobre mí"
+        image: "assets/images/about-photo.jpg",
         bio: [
             "Estudiante de Economía con 4 años de experiencia real en inversión en mercados financieros y enfoque analítico avanzado.",
-            
             "Perfil orientado a resultados, con mentalidad empresarial, sólida base en análisis financiero y capacidad para transformar ideas en proyectos digitales rentables.",
-            
             "Destaco por pensamiento lógico, comunicación persuasiva y una fuerte orientación a la creación de valor."
         ],
-        // 👆 CAMBIA estos párrafos con tu historia personal
     },
     
-    // ===== TUS HABILIDADES =====
+    // ===== EXPERIENCIA PROFESIONAL =====
+    experience: [
+        {
+            id: 1,
+            title: "Inversor Independiente",
+            company: "Gestión Personal de Capital",
+            period: "2019 - Actualidad",
+            location: "Remoto",
+            description: "Gestión activa de cartera en renta variable con enfoque en análisis fundamental y visión a medio plazo (1-3 años).",
+            achievements: [
+                "Más de 4 años de experiencia operativa en mercados financieros",
+                "Especialización en análisis de estados financieros y valoración empresarial (DCF, múltiplos)",
+                "Detección de empresas infravaloradas con potencial de revalorización",
+                "Gestión de riesgo y asignación estratégica de capital",
+                "Toma de decisiones bajo incertidumbre macroeconómica"
+            ],
+            technologies: ["Análisis Fundamental", "Excel", "Valoración Financiera", "Gestión de Riesgo"],
+            icon: "📊"
+        },
+        {
+            id: 2,
+            title: "Desarrollador Web con IA",
+            company: "Proyectos Freelance",
+            period: "2025 - Actualidad",
+            location: "Remoto",
+            description: "Creación de páginas web profesionales utilizando inteligencia artificial, enfocadas en soluciones digitales optimizadas y rentables.",
+            achievements: [
+                "Desarrollo de sitios web a código con IA personalizada",
+                "Integración de sistemas de pago (Stripe) y hosting profesional",
+                "Optimización SEO y diseño responsive",
+                "Proyectos escalables para negocios digitales"
+            ],
+            technologies: ["HTML", "CSS", "JavaScript", "GitHub", "Hostinger", "IA"],
+            icon: "💻"
+        },
+        {
+            id: 3,
+            title: "Estudiante de Economía",
+            company: "Universidad",
+            period: "2020 - Actualidad",
+            location: "Girona, España",
+            description: "Formación académica en teoría económica, finanzas, econometría y análisis cuantitativo.",
+            achievements: [
+                "Base sólida en microeconomía, macroeconomía y finanzas corporativas",
+                "Capacidad analítica y pensamiento crítico desarrollado",
+                "Habilidades en modelización financiera y análisis de datos"
+            ],
+            technologies: ["Excel", "Econometría", "Estadística", "Modelización"],
+            icon: "🎓"
+        }
+    ],
+    
+    // ===== HABILIDADES =====
     skills: [
         // Análisis y Finanzas
-        { name: " Análisis fundamental de empresas", level: 85, category: "Análisis y Finanzas", icon: "📊" },
+        { name: "Análisis fundamental de empresas", level: 85, category: "Análisis y Finanzas", icon: "📊" },
         { name: "Valoración financiera (DCF, ratios, múltiplos)", level: 80, category: "Análisis y Finanzas", icon: "📈" },
         { name: "Interpretación de estados financieros", level: 85, category: "Análisis y Finanzas", icon: "📑" },
         { name: "Toma de decisiones bajo incertidumbre", level: 80, category: "Análisis y Finanzas", icon: "🎯" },
@@ -70,22 +116,20 @@ const CONFIG = {
         { name: "Diseño web básico", level: 70, category: "Comunicación y Herramientas", icon: "💻" },
         { name: "Inglés (C1)", level: 85, category: "Comunicación y Herramientas", icon: "🌍" },
     ],
-    // 👆 EDITA: Cambia las skills por las tuyas, ajusta los niveles (0-100)
-    // Puedes agregar o quitar habilidades según necesites
     
-    // ===== TUS PROYECTOS =====
+    // ===== PROYECTOS =====
     projects: [
         {
             id: 1,
-            title: "Paginas Web con IA",                                    // 👈 Nombre del proyecto
-            shortDescription: "Creación de paginas web a codigo con IA personalizadas", // 👈 Descripción corta
-            fullDescription: "Proyecto de desarrollo de páginas web creadas con inteligencia artificial, enfocadas en ofrecer soluciones digitales profesionales, optimizadas y rentables para negocios que buscan escalar su presencia online de forma eficiente.",
-            thumbnail: "assets/images/projects/project1.jpg",               // 👈 Imagen del proyecto
-            tags: ["Github", "Hostinger", "Perplexity", "Stripe"],                // 👈 Tecnologías usadas
-            category: "web",                                                 // web, mobile, design, api
-            demoUrl: "https://demo-proyecto.com",                           // 👈 Link a demo (o "" si no tienes)
-            githubUrl: "",            // 👈 Link a GitHub
-            featured: true,                                                  // true = aparece destacado
+            title: "Páginas Web con IA",
+            shortDescription: "Creación de páginas web a código con IA personalizadas",
+            fullDescription: "Proyecto de desarrollo de páginas web creadas con inteligencia artificial, enfocadas en ofrecer soluciones digitales profesionales, optimizadas y rentables para negocios que buscan escalar su presencia online de forma eficiente. Incluye diseño responsive, optimización SEO, integración de pagos y hosting profesional.",
+            thumbnail: "assets/images/projects/project1.jpg",
+            tags: ["Github", "Hostinger", "Perplexity", "Stripe", "HTML", "CSS"],
+            category: "web",
+            demoUrl: "https://aleixbbpp.github.io/CURRICULUMWEB2/",
+            githubUrl: "https://github.com/AleixBBPP/CURRICULUMWEB2",
+            featured: true,
             date: "2025-07"
         },
         {
@@ -95,29 +139,47 @@ const CONFIG = {
             fullDescription: "Proyecto personal de inversión en renta variable con más de 4 años de experiencia, centrado en análisis fundamental, detección de empresas infravaloradas y asignación estratégica de capital con horizonte 1-3 años. Incluye estudio de estados financieros, valoración mediante múltiplos y DCF, gestión del riesgo y toma de decisiones bajo incertidumbre macroeconómica.",
             thumbnail: "assets/images/projects/project2.jpg",
             tags: ["Análisis Fundamental", "Valoración Financiera", "Gestión de Cartera", "Renta Variable"],
-            category: "Finanzas",
+            category: "finanzas",
             demoUrl: "",
             githubUrl: "",
             featured: true,
             date: "2019-Actualidad"
         },
+        {
+            id: 3,
+            title: "Dashboard de Análisis de Cartera",
+            shortDescription: "Herramienta Excel para seguimiento de inversiones en tiempo real",
+            fullDescription: "Dashboard interactivo desarrollado en Excel para el seguimiento y análisis de cartera de inversión. Incluye cálculo automático de rentabilidad por activo y total, análisis de distribución por sectores, seguimiento de dividendos, gestión de riesgo por posición y visualización gráfica de performance histórica.",
+            thumbnail: "assets/images/projects/project3.jpg",
+            tags: ["Excel", "Análisis Financiero", "Dashboard", "VBA"],
+            category: "finanzas",
+            demoUrl: "",
+            githubUrl: "",
+            featured: false,
+            date: "2023"
+        },
+        {
+            id: 4,
+            title: "Modelo de Valoración DCF",
+            shortDescription: "Template Excel para valoración de empresas mediante flujos descontados",
+            fullDescription: "Modelo financiero completo en Excel para valoración de empresas mediante el método de Flujos de Caja Descontados (DCF). Incluye proyección de estados financieros, cálculo de WACC, valor terminal, análisis de sensibilidad y escenarios múltiples. Herramienta útil para análisis fundamental profundo.",
+            thumbnail: "assets/images/projects/project4.jpg",
+            tags: ["Excel", "DCF", "Valoración", "Modelización Financiera"],
+            category: "finanzas",
+            demoUrl: "",
+            githubUrl: "",
+            featured: false,
+            date: "2024"
+        }
     ],
-    // 👆 IMPORTANTE: EDITA estos proyectos con los tuyos
-    // Puedes agregar más proyectos copiando y pegando un bloque { ... }
-    // Las categorías pueden ser: "web", "mobile", "design", "api"
     
     // ===== TEMA DE COLORES =====
     theme: {
-        // Puedes cambiar estos colores si quieres personalizar más
-        primaryColor: "#3b82f6",      // Azul principal
-        secondaryColor: "#8b5cf6",    // Púrpura
-        accentColor: "#10b981",       // Verde
+        primaryColor: "#3b82f6",
+        secondaryColor: "#8b5cf6",
+        accentColor: "#10b981",
     }
 };
-
-// ====================================
-// NO TOQUES NADA DEBAJO DE ESTA LÍNEA
-// ====================================
 
 // Hacer CONFIG disponible globalmente
 window.CONFIG = CONFIG;
