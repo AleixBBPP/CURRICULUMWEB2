@@ -1,0 +1,565 @@
+// ====================================
+// MAIN.JS - CEREBRO DEL PORTFOLIO
+// ====================================
+
+// ===== VARIABLES GLOBALES =====
+let currentFilter = 'all';
+let currentSkillCategory = 'all';
+
+// ===== INICIALIZACIÓN =====
+document.addEventListener('DOMContentLoaded', () => {
+    // Ocultar loader después de cargar
+    setTimeout(() => {
+        document.getElementById('loader').classList.add('hidden');
+    }, 1000);
+    
+    // Inicializar componentes
+    initRouter();
+    initNavbar();
+    initThemeToggle();
+    renderHome();
+    renderAbout();
+    renderProjects();
+    renderContact();
+    renderFooter();
+});
+
+// ====================================
+// ROUTER - NAVEGACIÓN ENTRE SECCIONES
+// ====================================
+function initRouter() {
+    // Manejar cambio de hash
+    window.addEventListener('hashchange', handleRoute);
+    
+    // Manejar clicks en links
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const hash = link.getAttribute('href').substring(1) || 'home';
+            window.location.hash = hash;
+        });
+    });
+    
+    // Cargar ruta inicial
+    handleRoute();
+}
+
+function handleRoute() {
+    const hash = window.location.hash.substring(1) || 'home';
+    
+    // Ocultar todas las secciones
+    document.querySelectorAll('.section').forEach(section => {
+        section.classList.remove('active');
+    });
+    
+    // Mostrar sección activa
+    const targetSection = document.getElementById(hash);
+    if (targetSection) {
+        targetSection.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
+    // Actualizar nav links
+    updateActiveNavLink(hash);
+}
+
+function updateActiveNavLink(currentHash) {
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${currentHash}`) {
+            link.classList.add('active');
+        }
+    });
+}
+
+// ====================================
+// NAVBAR
+// ====================================
+function initNavbar() {
+    const navbar = document.getElementById('navbar');
+    const menuToggle = document.getElementById('menu-toggle');
+    const navMenu = document.getElementById('nav-menu');
+    
+    // Scroll effect
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+    
+    // Mobile menu toggle
+    menuToggle.addEventListener('click', () => {
+        menuToggle.classList.toggle('active');
+        navMenu.classList.toggle('active');
+    });
+    
+    // Cerrar menu al hacer click en un link
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+            menuToggle.classList.remove('active');
+            navMenu.classList.remove('active');
+        });
+    });
+}
+
+// ====================================
+// THEME TOGGLE
+// ====================================
+function initThemeToggle() {
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIcon = themeToggle.querySelector('.theme-icon');
+    
+    // Cargar tema guardado
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    themeIcon.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+    
+    // Toggle theme
+    themeToggle.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        themeIcon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+    });
+}
+
+// ====================================
+// HOME SECTION
+// ====================================
+function renderHome() {
+    const heroContent = document.getElementById('hero-content');
+    
+    heroContent.innerHTML = `
+        <div class="hero-avatar">
+            <img src="${CONFIG.personal.avatar}" alt="${CONFIG.personal.name}" onerror="this.src='https://via.placeholder.com/150'">
+        </div>
+        <h1 class="hero-greeting">
+            Hola, soy <span class="highlight">${CONFIG.personal.name}</span>
+        </h1>
+        <h2 class="hero-title">
+            <span class="typing-text"></span>
+            <span class="cursor">|</span>
+        </h2>
+        <p class="hero-tagline">${CONFIG.personal.tagline}</p>
+        <div class="hero-cta">
+            <a href="#projects" class="btn btn-primary">Ver Proyectos</a>
+            <a href="${CONFIG.personal.cvUrl}" class="btn btn-secondary" ${CONFIG.personal.cvUrl !== '#' ? 'download' : ''}>Descargar CV</a>
+        </div>
+    `;
+    
+    // Iniciar animación de typing
+    initTypingAnimation();
+}
+
+function initTypingAnimation() {
+    const typingElement = document.querySelector('.typing-text');
+    if (!typingElement) return;
+    
+    const roles = CONFIG.personal.roles;
+    let roleIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    
+    function type() {
+        const currentRole = roles[roleIndex];
+        
+        if (!isDeleting) {
+            typingElement.textContent = currentRole.substring(0, charIndex + 1);
+            charIndex++;
+            
+            if (charIndex === currentRole.length) {
+                isDeleting = true;
+                setTimeout(type, 2000);
+                return;
+            }
+        } else {
+            typingElement.textContent = currentRole.substring(0, charIndex - 1);
+            charIndex--;
+            
+            if (charIndex === 0) {
+                isDeleting = false;
+                roleIndex = (roleIndex + 1) % roles.length;
+                setTimeout(type, 500);
+                return;
+            }
+        }
+        
+        setTimeout(type, isDeleting ? 50 : 100);
+    }
+    
+    type();
+}
+
+// ====================================
+// ABOUT SECTION
+// ====================================
+function renderAbout() {
+    const aboutContent = document.getElementById('about-content');
+    
+    const bioHTML = CONFIG.about.bio.map(paragraph => 
+        `<p>${paragraph}</p>`
+    ).join('');
+    
+    aboutContent.innerHTML = `
+        <div class="about-grid">
+            <div class="about-image">
+                <img src="${CONFIG.about.image}" alt="${CONFIG.personal.name}" onerror="this.src='https://via.placeholder.com/400x500'">
+            </div>
+            <div class="about-text">
+                <h3>Conoce más sobre mí</h3>
+                ${bioHTML}
+            </div>
+        </div>
+        
+        <div class="skills-section">
+            <h3 class="section-title">Mis Habilidades</h3>
+            ${renderSkillsTabs()}
+            ${renderSkillsGrid()}
+        </div>
+    `;
+    
+    initSkillsFilter();
+    animateSkillBars();
+}
+
+function renderSkillsTabs() {
+    const categories = ['all', ...new Set(CONFIG.skills.map(s => s.category))];
+    
+    return `
+        <div class="skills-tabs">
+            ${categories.map(cat => `
+                <button class="skill-tab ${cat === 'all' ? 'active' : ''}" data-category="${cat}">
+                    ${cat === 'all' ? 'Todas' : cat.charAt(0).toUpperCase() + cat.slice(1)}
+                </button>
+            `).join('')}
+        </div>
+    `;
+}
+
+function renderSkillsGrid() {
+    return `
+        <div class="skills-grid">
+            ${CONFIG.skills.map(skill => `
+                <div class="skill-item" data-category="${skill.category}">
+                    <div class="skill-header">
+                        <span class="skill-icon">${skill.icon}</span>
+                        <span class="skill-name">${skill.name}</span>
+                        <span class="skill-percent">${skill.level}%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-bar-fill" style="--skill-level: ${skill.level}%; width: 0;"></div>
+                    </div>
+                </div>
+            `).join('')}
+        </div>
+    `;
+}
+
+function initSkillsFilter() {
+    document.querySelectorAll('.skill-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            const category = tab.dataset.category;
+            
+            // Update active tab
+            document.querySelectorAll('.skill-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            
+            // Filter skills
+            document.querySelectorAll('.skill-item').forEach(item => {
+                if (category === 'all' || item.dataset.category === category) {
+                    item.classList.remove('hidden');
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+            
+            // Re-animate visible bars
+            setTimeout(animateSkillBars, 100);
+        });
+    });
+}
+
+function animateSkillBars() {
+    document.querySelectorAll('.skill-item:not(.hidden) .skill-bar-fill').forEach(bar => {
+        const level = bar.style.getPropertyValue('--skill-level');
+        bar.style.width = '0';
+        setTimeout(() => {
+            bar.style.width = level;
+        }, 100);
+    });
+}
+
+// ====================================
+// PROJECTS SECTION
+// ====================================
+function renderProjects() {
+    const projectsGrid = document.getElementById('projects-grid');
+    const projectFilters = document.getElementById('project-filters');
+    
+    // Render filters
+    const categories = ['all', ...new Set(CONFIG.projects.map(p => p.category))];
+    projectFilters.innerHTML = categories.map(cat => `
+        <button class="filter-btn ${cat === 'all' ? 'active' : ''}" data-filter="${cat}">
+            ${cat === 'all' ? 'Todos' : cat.charAt(0).toUpperCase() + cat.slice(1)}
+        </button>
+    `).join('');
+    
+    // Render projects
+    projectsGrid.innerHTML = CONFIG.projects.map(project => `
+        <div class="project-card" data-category="${project.category}" data-project-id="${project.id}">
+            <div class="project-image">
+                <img src="${project.thumbnail}" alt="${project.title}" onerror="this.src='https://via.placeholder.com/400x300'">
+                ${project.featured ? '<span class="project-badge">Destacado</span>' : ''}
+            </div>
+            <div class="project-info">
+                <h3 class="project-title">${project.title}</h3>
+                <p class="project-description">${project.shortDescription}</p>
+                <div class="project-tags">
+                    ${project.tags.map(tag => `<span class="project-tag">${tag}</span>`).join('')}
+                </div>
+                <div class="project-links">
+                    ${project.demoUrl ? `<a href="${project.demoUrl}" target="_blank" class="project-link project-link-demo">Ver Demo</a>` : ''}
+                    ${project.githubUrl ? `<a href="${project.githubUrl}" target="_blank" class="project-link project-link-code">Ver Código</a>` : ''}
+                </div>
+            </div>
+        </div>
+    `).join('');
+    
+    initProjectsFilter();
+    initProjectModal();
+}
+
+function initProjectsFilter() {
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const filter = btn.dataset.filter;
+            
+            // Update active button
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            // Filter projects
+            document.querySelectorAll('.project-card').forEach(card => {
+                if (filter === 'all' || card.dataset.category === filter) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        });
+    });
+}
+
+function initProjectModal() {
+    const modal = document.getElementById('project-modal');
+    const modalBody = document.getElementById('modal-body');
+    const modalClose = document.getElementById('modal-close');
+    
+    // Abrir modal al hacer click en proyecto
+    document.querySelectorAll('.project-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+            // No abrir si se hizo click en un link
+            if (e.target.closest('a')) return;
+            
+            const projectId = parseInt(card.dataset.projectId);
+            const project = CONFIG.projects.find(p => p.id === projectId);
+            
+            if (project) {
+                modalBody.innerHTML = `
+                    <div style="padding: 2rem;">
+                        <img src="${project.thumbnail}" alt="${project.title}" style="width: 100%; border-radius: 8px; margin-bottom: 1.5rem;" onerror="this.src='https://via.placeholder.com/800x400'">
+                        <h2 style="font-size: 2rem; margin-bottom: 1rem; color: var(--color-primary);">${project.title}</h2>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1.5rem;">${project.fullDescription}</p>
+                        <div style="margin-bottom: 1.5rem;">
+                            <h4 style="margin-bottom: 0.5rem;">Tecnologías:</h4>
+                            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                                ${project.tags.map(tag => `<span class="project-tag">${tag}</span>`).join('')}
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 1rem;">
+                            ${project.demoUrl ? `<a href="${project.demoUrl}" target="_blank" class="btn btn-primary">Ver Demo</a>` : ''}
+                            ${project.githubUrl ? `<a href="${project.githubUrl}" target="_blank" class="btn btn-secondary">Ver Código</a>` : ''}
+                        </div>
+                    </div>
+                `;
+                modal.classList.add('active');
+            }
+        });
+    });
+    
+    // Cerrar modal
+    modalClose.addEventListener('click', () => {
+        modal.classList.remove('active');
+    });
+    
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.classList.remove('active');
+        }
+    });
+}
+
+// ====================================
+// CONTACT SECTION
+// ====================================
+function renderContact() {
+    const contactContent = document.getElementById('contact-content');
+    
+    contactContent.innerHTML = `
+        <div class="contact-grid">
+            <form class="contact-form" id="contact-form">
+                <div class="form-group">
+                    <label for="name">Nombre *</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="subject">Asunto</label>
+                    <input type="text" id="subject" name="subject">
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Mensaje *</label>
+                    <textarea id="message" name="message" rows="5" required></textarea>
+                </div>
+                
+                <button type="submit" class="btn btn-submit">Enviar Mensaje</button>
+                
+                <div class="form-message hidden" id="form-message"></div>
+            </form>
+            
+            <div class="contact-info">
+                <div class="contact-info-item">
+                    <span class="contact-icon">📧</span>
+                    <div class="contact-details">
+                        <h4>Email</h4>
+                        <a href="mailto:${CONFIG.personal.email}">${CONFIG.personal.email}</a>
+                    </div>
+                </div>
+                
+                <div class="contact-info-item">
+                    <span class="contact-icon">📱</span>
+                    <div class="contact-details">
+                        <h4>Teléfono</h4>
+                        <a href="tel:${CONFIG.personal.phone}">${CONFIG.personal.phone}</a>
+                    </div>
+                </div>
+                
+                <div class="contact-info-item">
+                    <span class="contact-icon">📍</span>
+                    <div class="contact-details">
+                        <h4>Ubicación</h4>
+                        <p>${CONFIG.personal.location}</p>
+                    </div>
+                </div>
+                
+                <div class="contact-social">
+                    <h4>Sígueme</h4>
+                    <div class="social-links">
+                        ${Object.entries(CONFIG.social).filter(([k, v]) => v).map(([platform, url]) => `
+                            <a href="${url}" target="_blank" class="social-link" title="${platform}">
+                                ${getSocialIcon(platform)}
+                            </a>
+                        `).join('')}
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    initContactForm();
+}
+
+function getSocialIcon(platform) {
+    const icons = {
+        github: '⚡',
+        linkedin: '💼',
+        twitter: '🐦',
+        instagram: '📷'
+    };
+    return icons[platform] || '🔗';
+}
+
+function initContactForm() {
+    const form = document.getElementById('contact-form');
+    const formMessage = document.getElementById('form-message');
+    
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const formData = {
+            name: document.getElementById('name').value,
+            email: document.getElementById('email').value,
+            subject: document.getElementById('subject').value,
+            message: document.getElementById('message').value
+        };
+        
+        // Simular envío (puedes integrar con FormSubmit.co o EmailJS después)
+        formMessage.classList.remove('hidden', 'success', 'error');
+        formMessage.textContent = 'Enviando mensaje...';
+        
+        setTimeout(() => {
+            formMessage.classList.add('success');
+            formMessage.textContent = '¡Mensaje enviado correctamente! Te responderé pronto.';
+            form.reset();
+            
+            setTimeout(() => {
+                formMessage.classList.add('hidden');
+            }, 5000);
+        }, 1500);
+    });
+}
+
+// ====================================
+// FOOTER
+// ====================================
+function renderFooter() {
+    const footer = document.getElementById('footer');
+    const currentYear = new Date().getFullYear();
+    
+    footer.innerHTML = `
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>${CONFIG.personal.name}</h4>
+                    <p>${CONFIG.personal.title}</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Enlaces</h4>
+                    <ul class="footer-links">
+                        <li><a href="#home">Inicio</a></li>
+                        <li><a href="#about">Sobre Mí</a></li>
+                        <li><a href="#projects">Proyectos</a></li>
+                        <li><a href="#contact">Contacto</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Redes Sociales</h4>
+                    <div class="social-links">
+                        ${Object.entries(CONFIG.social).filter(([k, v]) => v).map(([platform, url]) => `
+                            <a href="${url}" target="_blank" class="social-link" title="${platform}">
+                                ${getSocialIcon(platform)}
+                            </a>
+                        `).join('')}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; ${currentYear} ${CONFIG.personal.name}. Todos los derechos reservados.</p>
+                <p>Hecho con ❤️ y mucho café</p>
+            </div>
+        </div>
+    `;
+}
