@@ -10,7 +10,7 @@ const CONFIG = {
     personal: {
         name: "Aleix Bosch Pérez",                    // 👈 CAMBIA ESTO
         title: "Economista e Inversor",         // 👈 Tu profesión/título
-        tagline: "Creando experiencias digitales increíbles con código limpio y diseño moderno",  // 👈 Tu frase personal
+        tagline: "Mentalidad analítica. Ambición emprendedora. Creación de valor sin excusas.",  // 👈 Tu frase personal
         email: "aleixboschperez@gmail.com",                  // 👈 Tu email
         phone: "+34 682735782",                      // 👈 Tu teléfono
         location: "Girona, España",                    // 👈 Tu ubicación
@@ -50,7 +50,7 @@ const CONFIG = {
     // ===== TUS HABILIDADES =====
     skills: [
         // Análisis y Finanzas
-        { name: "Análisis fundamental de empresas", level: 85, category: "Análisis y Finanzas", icon: "📊" },
+        { name: " Análisis fundamental de empresas", level: 85, category: "Análisis y Finanzas", icon: "📊" },
         { name: "Valoración financiera (DCF, ratios, múltiplos)", level: 80, category: "Análisis y Finanzas", icon: "📈" },
         { name: "Interpretación de estados financieros", level: 85, category: "Análisis y Finanzas", icon: "📑" },
         { name: "Toma de decisiones bajo incertidumbre", level: 80, category: "Análisis y Finanzas", icon: "🎯" },
