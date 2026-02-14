@@ -3,14 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Portfolio profesional - Desarrollador Web">
-    <title>Mi Portfolio Profesional</title>
+    
+    <!-- SEO Mejorado -->
+    <meta name="description" content="Aleix Bosch Pérez - Economista e Inversor especializado en análisis financiero y mercados. Portfolio profesional con más de 4 años de experiencia en inversión y gestión de capital.">
+    <meta name="keywords" content="economista, inversor, análisis financiero, análisis fundamental, portfolio, Aleix Bosch, gestión de cartera, valoración empresarial, mercados financieros">
+    <meta name="author" content="Aleix Bosch Pérez">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph para redes sociales -->
+    <meta property="og:title" content="Aleix Bosch Pérez - Economista e Inversor">
+    <meta property="og:description" content="Economista e Inversor con 4+ años de experiencia en análisis financiero y gestión de capital. Portfolio profesional y proyectos.">
+    <meta property="og:image" content="https://aleixbbpp.github.io/CURRICULUMWEB2/assets/images/avatar.jpg">
+    <meta property="og:url" content="https://aleixbbpp.github.io/CURRICULUMWEB2/">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="es_ES">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Aleix Bosch Pérez - Portfolio Profesional">
+    <meta name="twitter:description" content="Economista e Inversor especializado en análisis financiero y mercados">
+    <meta name="twitter:image" content="https://aleixbbpp.github.io/CURRICULUMWEB2/assets/images/avatar.jpg">
+    
+    <title>Aleix Bosch Pérez - Economista e Inversor | Portfolio Profesional</title>
     
     <!-- CSS -->
     <link rel="stylesheet" href="css/styles.css">
     
+    <!-- AOS - Animate On Scroll -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     
@@ -22,7 +45,7 @@
     <!-- NAVBAR -->
     <nav id="navbar" class="navbar">
         <div class="container">
-            <a href="#home" class="logo">Mi Portfolio</a>
+            <a href="#home" class="logo">Aleix Bosch</a>
             
             <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menú">
                 <span></span>
@@ -31,8 +54,9 @@
             </button>
             
             <ul class="nav-menu" id="nav-menu">
-                <li><a href="#home" class="nav-link active">Inicio</a></li>
+                <li><a href="#home" class="nav-link">Inicio</a></li>
                 <li><a href="#about" class="nav-link">Sobre Mí</a></li>
+                <li><a href="#experience" class="nav-link">Experiencia</a></li>
                 <li><a href="#projects" class="nav-link">Proyectos</a></li>
                 <li><a href="#contact" class="nav-link">Contacto</a></li>
             </ul>
@@ -47,9 +71,9 @@
     <main id="main-content">
         
         <!-- SECCIÓN HOME -->
-        <section id="home" class="section section-home active">
+        <section id="home" class="section section-home">
             <div class="container">
-                <div class="hero-content" id="hero-content">
+                <div class="hero-content" id="hero-content" data-aos="fade-up" data-aos-duration="1000">
                     <!-- El JavaScript llenará esto automáticamente -->
                 </div>
             </div>
@@ -58,8 +82,18 @@
         <!-- SECCIÓN ABOUT -->
         <section id="about" class="section section-about">
             <div class="container">
-                <h2 class="section-title">Sobre Mí</h2>
+                <h2 class="section-title" data-aos="fade-up">Sobre Mí</h2>
                 <div id="about-content">
+                    <!-- El JavaScript llenará esto automáticamente -->
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN EXPERIENCIA -->
+        <section id="experience" class="section section-experience">
+            <div class="container">
+                <h2 class="section-title" data-aos="fade-up">Experiencia Profesional</h2>
+                <div id="experience-content">
                     <!-- El JavaScript llenará esto automáticamente -->
                 </div>
             </div>
@@ -68,9 +102,9 @@
         <!-- SECCIÓN PROYECTOS -->
         <section id="projects" class="section section-projects">
             <div class="container">
-                <h2 class="section-title">Mis Proyectos</h2>
+                <h2 class="section-title" data-aos="fade-up">Mis Proyectos</h2>
                 
-                <div class="project-filters" id="project-filters">
+                <div class="project-filters" id="project-filters" data-aos="fade-up" data-aos-delay="100">
                     <!-- El JavaScript llenará esto automáticamente -->
                 </div>
                 
@@ -83,7 +117,7 @@
         <!-- SECCIÓN CONTACTO -->
         <section id="contact" class="section section-contact">
             <div class="container">
-                <h2 class="section-title">Contacto</h2>
+                <h2 class="section-title" data-aos="fade-up">Contacto</h2>
                 <div id="contact-content">
                     <!-- El JavaScript llenará esto automáticamente -->
                 </div>
@@ -108,9 +142,9 @@
     </div>
 
     <!-- SCRIPTS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="js/config.js"></script>
     <script src="js/main.js"></script>
 
 </body>
 </html>
-
