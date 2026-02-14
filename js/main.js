@@ -8,66 +8,121 @@ let currentSkillCategory = 'all';
 
 // ===== INICIALIZACIÓN =====
 document.addEventListener('DOMContentLoaded', () => {
-    // Ocultar loader después de cargar
+    // Ocultar loader
     setTimeout(() => {
         document.getElementById('loader').classList.add('hidden');
-    }, 1000);
+    }, 500);
+    
+    // Inicializar AOS (animaciones)
+    AOS.init({
+        duration: 800,
+        easing: 'ease-in-out',
+        once: true,
+        offset: 100
+    });
     
     // Inicializar componentes
-    initRouter();
+    initSmoothScroll();  // ← NUEVA FUNCIÓN
     initNavbar();
     initThemeToggle();
+    
+    // Renderizar contenido
     renderHome();
     renderAbout();
+    renderExperience();  // ← NUEVA FUNCIÓN (te la doy abajo)
     renderProjects();
     renderContact();
     renderFooter();
 });
+// ====================================
+// EXPERIENCE SECTION
+// ====================================
+function renderExperience() {
+    const experienceContent = document.getElementById('experience-content');
+    
+    if (!CONFIG.experience || CONFIG.experience.length === 0) {
+        experienceContent.innerHTML = '<p>No hay experiencia disponible.</p>';
+        return;
+    }
+    
+    experienceContent.innerHTML = `
+        <div class="experience-timeline">
+            ${CONFIG.experience.map((exp, index) => `
+                <div class="experience-item" data-aos="fade-up" data-aos-delay="${index * 100}">
+                    <div class="experience-icon">${exp.icon}</div>
+                    <div class="experience-content">
+                        <div class="experience-header">
+                            <h3 class="experience-title">${exp.title}</h3>
+                            <span class="experience-period">${exp.period}</span>
+                        </div>
+                        <p class="experience-company">
+                            ${exp.company} ${exp.location ? `• ${exp.location}` : ''}
+                        </p>
+                        <p class="experience-description">${exp.description}</p>
+                        
+                        ${exp.achievements && exp.achievements.length > 0 ? `
+                            <ul class="experience-achievements">
+                                ${exp.achievements.map(achievement => `
+                                    <li>${achievement}</li>
+                                `).join('')}
+                            </ul>
+                        ` : ''}
+                        
+                        ${exp.technologies && exp.technologies.length > 0 ? `
+                            <div class="experience-tags">
+                                ${exp.technologies.map(tech => `
+                                    <span class="experience-tag">${tech}</span>
+                                `).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('')}
+        </div>
+    `;
+}
 
 // ====================================
-// ROUTER - NAVEGACIÓN ENTRE SECCIONES
+// SMOOTH SCROLL Y NAVEGACIÓN
 // ====================================
-function initRouter() {
-    // Manejar cambio de hash
-    window.addEventListener('hashchange', handleRoute);
-    
-    // Manejar clicks en links
-    document.querySelectorAll('a[href^="#"]').forEach(link => {
+function initSmoothScroll() {
+    // Manejar clicks en nav links
+    document.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
-            const hash = link.getAttribute('href').substring(1) || 'home';
-            window.location.hash = hash;
+            const targetId = link.getAttribute('href');
+            const targetSection = document.querySelector(targetId);
+            
+            if (targetSection) {
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+                
+                // Cerrar menú móvil si está abierto
+                document.getElementById('menu-toggle').classList.remove('active');
+                document.getElementById('nav-menu').classList.remove('active');
+            }
         });
     });
     
-    // Cargar ruta inicial
-    handleRoute();
+    // Actualizar link activo al hacer scroll
+    window.addEventListener('scroll', updateActiveNavOnScroll);
 }
 
-function handleRoute() {
-    const hash = window.location.hash.substring(1) || 'home';
+function updateActiveNavOnScroll() {
+    const sections = document.querySelectorAll('.section');
+    const scrollPos = window.scrollY + 100; // Offset para navbar
     
-    // Ocultar todas las secciones
-    document.querySelectorAll('.section').forEach(section => {
-        section.classList.remove('active');
-    });
-    
-    // Mostrar sección activa
-    const targetSection = document.getElementById(hash);
-    if (targetSection) {
-        targetSection.classList.add('active');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-    
-    // Actualizar nav links
-    updateActiveNavLink(hash);
-}
-
-function updateActiveNavLink(currentHash) {
-    document.querySelectorAll('.nav-link').forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === `#${currentHash}`) {
-            link.classList.add('active');
+    sections.forEach(section => {
+        const top = section.offsetTop;
+        const height = section.offsetHeight;
+        const id = section.getAttribute('id');
+        
+        if (scrollPos >= top && scrollPos < top + height) {
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${id}`) {
+                    link.classList.add('active');
+                }
+            });
         }
     });
 }
