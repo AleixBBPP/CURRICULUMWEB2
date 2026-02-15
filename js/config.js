@@ -94,28 +94,33 @@ const CONFIG = {
     ],
     
     // ===== HABILIDADES =====
-    skills: [
-        // Análisis y Finanzas
+skills: {
+    "Análisis Financiero": [
         { name: "Análisis fundamental de empresas", icon: "📊" },
-        { name: "Valoración financiera (DCF, ratios, múltiplos)", icon: "📈" },
+        { name: "Valoración financiera (DCF, múltiplos)", icon: "📈" },
         { name: "Interpretación de estados financieros", icon: "📑" },
+        { name: "Excel (modelización financiera)", icon: "💹" }
+    ],
+    "Inversión y Mercados": [
+        { name: "Gestión de cartera", icon: "💼" },
         { name: "Toma de decisiones bajo incertidumbre", icon: "🎯" },
-        { name: "Pensamiento lógico-analítico", icon: "🧠" },
-        
-        // Negocio y Estrategia
+        { name: "Análisis de riesgo", icon: "⚖️" },
+        { name: "Visión estratégica a medio plazo", icon: "♟️" }
+    ],
+    "Negocio y Estrategia": [
         { name: "Mentalidad emprendedora", icon: "🚀" },
         { name: "Detección de oportunidades de negocio", icon: "🔎" },
         { name: "Negociación", icon: "🤝" },
-        { name: "Ventas consultivas", icon: "💼" },
-        { name: "Visión estratégica a medio plazo", icon: "♟️" },
-        
-        // Comunicación y Herramientas
-        { name: "Oratoria y comunicación persuasiva", icon: "🎤" },
-        { name: "Capacidad de enseñanza y explicación", icon: "📚" },
-        { name: "Excel (modelización básica-intermedia)", icon: "📊" },
-        { name: "Diseño web básico", icon: "💻" },
-        { name: "Inglés (C1)", icon: "🌍" },
+        { name: "Ventas consultivas", icon: "💡" }
     ],
+    "Comunicación y Soft Skills": [
+        { name: "Oratoria y comunicación persuasiva", icon: "🎤" },
+        { name: "Pensamiento lógico-analítico", icon: "🧠" },
+        { name: "Capacidad de enseñanza", icon: "📚" },
+        { name: "Inglés (C1)", icon: "🌍" }
+    ]
+},
+
     
     // ===== PROYECTOS =====
     projects: [
