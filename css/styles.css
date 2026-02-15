@@ -405,9 +405,13 @@ body {
     font-weight: 600;
     text-transform: capitalize;
     transition: all var(--transition);
-    color: var(--color-text);  /* ← AÑADE ESTA LÍNEA */
+    color: var(--color-text);  /* ← NUEVO */
 }
 
+.skill-tab:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
 
 .skill-tab.active {
     background-color: var(--color-primary);
