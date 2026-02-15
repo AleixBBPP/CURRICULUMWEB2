@@ -1473,3 +1473,34 @@ body {
         font-size: var(--font-3xl);
     }
 }
+/* Mejorar animaciones del hero */
+.hero-avatar {
+    animation: scaleIn 1s ease both;
+}
+
+.hero-greeting {
+    animation: fadeInDown 1s ease 0.2s both;
+}
+
+.hero-title {
+    animation: fadeInUp 1s ease 0.4s both;
+}
+
+.hero-tagline {
+    animation: fadeInUp 1s ease 0.6s both;
+}
+
+.hero-cta {
+    animation: fadeInUp 1s ease 0.8s both;
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
