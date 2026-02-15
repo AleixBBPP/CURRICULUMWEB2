@@ -1370,7 +1370,7 @@ body {
     font-weight: 500;
 }
 
-/* ====================================
+   /* ====================================
    BACK TO TOP BUTTON
    ==================================== */
 
@@ -1389,8 +1389,8 @@ body {
     opacity: 0;
     visibility: hidden;
     transition: all var(--transition);
-    box-shadow: var(--shadow-md);
-    z-index: 999;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
 }
 
 .back-to-top.visible {
@@ -1400,5 +1400,14 @@ body {
 
 .back-to-top:hover {
     transform: translateY(-5px);
-    box-shadow: var(--shadow-lg);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+@media (max-width: 768px) {
+    .back-to-top {
+        bottom: 20px;
+        right: 20px;
+        width: 45px;
+        height: 45px;
+    }
 }
