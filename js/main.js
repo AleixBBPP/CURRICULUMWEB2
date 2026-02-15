@@ -212,78 +212,30 @@ function renderAbout() {
         </div>
         
         <div class="skills-section">
-            <h3 class="section-title" data-aos="fade-up">Mis Habilidades</h3>
-            ${renderSkillsTabs()}
-            ${renderSkillsGrid()}
-        </div>
-    `;
-    
-    initSkillsFilter();
-    setTimeout(animateSkillBars, 500);
-}
-
-function renderSkillsTabs() {
-    const categories = ['all', ...new Set(CONFIG.skills.map(s => s.category))];
-    
-    return `
-        <div class="skills-tabs" data-aos="fade-up" data-aos-delay="100">
-            ${categories.map(cat => `
-                <button class="skill-tab ${cat === 'all' ? 'active' : ''}" data-category="${cat}">
-                    ${cat === 'all' ? 'Todas' : cat}
-                </button>
-            `).join('')}
+            <h3 class="section-title" data-aos="fade-up">Habilidades y Competencias</h3>
+            ${renderSkillsCategories()}
         </div>
     `;
 }
 
-function renderSkillsGrid() {
+function renderSkillsCategories() {
     return `
-        <div class="skills-grid" data-aos="fade-up" data-aos-delay="200">
-            ${CONFIG.skills.map(skill => `
-                <div class="skill-item" data-category="${skill.category}">
-                    <div class="skill-header">
-                        <span class="skill-icon">${skill.icon}</span>
-                        <span class="skill-name">${skill.name}</span>
-                        <span class="skill-percent">${skill.level}%</span>
-                    </div>
-                    <div class="skill-bar">
-                        <div class="skill-bar-fill" style="--skill-level: ${skill.level}%; width: 0;"></div>
-                    </div>
+        <div class="skills-categories-grid" data-aos="fade-up" data-aos-delay="100">
+            ${Object.entries(CONFIG.skills).map(([category, skills]) => `
+                <div class="skill-category-card">
+                    <h4 class="skill-category-title">${category}</h4>
+                    <ul class="skill-list">
+                        ${skills.map(skill => `
+                            <li class="skill-list-item">
+                                <span class="skill-icon">${skill.icon}</span>
+                                <span class="skill-name">${skill.name}</span>
+                            </li>
+                        `).join('')}
+                    </ul>
                 </div>
             `).join('')}
         </div>
     `;
-}
-
-function initSkillsFilter() {
-    document.querySelectorAll('.skill-tab').forEach(tab => {
-        tab.addEventListener('click', () => {
-            const category = tab.dataset.category;
-            
-            document.querySelectorAll('.skill-tab').forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-            
-            document.querySelectorAll('.skill-item').forEach(item => {
-                if (category === 'all' || item.dataset.category === category) {
-                    item.classList.remove('hidden');
-                } else {
-                    item.classList.add('hidden');
-                }
-            });
-            
-            setTimeout(animateSkillBars, 100);
-        });
-    });
-}
-
-function animateSkillBars() {
-    document.querySelectorAll('.skill-item:not(.hidden) .skill-bar-fill').forEach(bar => {
-        const level = bar.style.getPropertyValue('--skill-level');
-        bar.style.width = '0';
-        setTimeout(() => {
-            bar.style.width = level;
-        }, 100);
-    });
 }
 
 // ====================================
