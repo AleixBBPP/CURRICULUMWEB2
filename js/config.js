@@ -31,13 +31,13 @@ stats: [
         icon: "📊"
     },
     {
-        number: 100,
+        number: 200,
         suffix: "+",
         label: "Análisis de Empresas",
         icon: "🔍"
     },
     {
-        number: 15,
+        number: 50,
         suffix: "+",
         label: "Sectores Analizados",
         icon: "🏢"
