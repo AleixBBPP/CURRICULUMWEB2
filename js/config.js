@@ -25,7 +25,7 @@ const CONFIG = {
     // ===== ESTADÍSTICAS CLAVE =====
 stats: [
     {
-        number: 4,
+        number: 6,
         suffix: "+",
         label: "Años Invirtiendo",
         icon: "📊"
@@ -42,12 +42,7 @@ stats: [
         label: "Sectores Analizados",
         icon: "🏢"
     },
-    {
-        number: 2,
-        suffix: "",
-        label: "Idiomas",
-        icon: "🌍"
-    }
+    
 ],
 
     // ===== REDES SOCIALES =====
