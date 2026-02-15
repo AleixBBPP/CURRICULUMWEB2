@@ -28,7 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
     renderHome();
     renderAbout();
     renderExperience();
-    renderProjects();
     renderContact();
     renderFooter();
 });
@@ -144,7 +143,6 @@ function renderHome() {
         </h2>
         <p class="hero-tagline">${CONFIG.personal.tagline}</p>
         <div class="hero-cta">
-            <a href="#projects" class="btn btn-primary">Ver Proyectos</a>
             <a href="${CONFIG.personal.cvUrl}" class="btn btn-secondary" ${CONFIG.personal.cvUrl !== '#' ? 'download' : ''}>Descargar CV</a>
         </div>
     `;
@@ -546,7 +544,6 @@ function renderFooter() {
                         <li><a href="#home">Inicio</a></li>
                         <li><a href="#about">Sobre Mí</a></li>
                         <li><a href="#experience">Experiencia</a></li>
-                        <li><a href="#projects">Proyectos</a></li>
                         <li><a href="#contact">Contacto</a></li>
                     </ul>
                 </div>
