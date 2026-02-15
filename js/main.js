@@ -1,10 +1,6 @@
 // ====================================
-// MAIN.JS - CEREBRO DEL PORTFOLIO
+// MAIN.JS - LANDING PAGE
 // ====================================
-
-// ===== VARIABLES GLOBALES =====
-let currentFilter = 'all';
-let currentSkillCategory = 'all';
 
 // ===== INICIALIZACIÓN =====
 document.addEventListener('DOMContentLoaded', () => {
@@ -14,73 +10,28 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 500);
     
     // Inicializar AOS (animaciones)
-    AOS.init({
-        duration: 800,
-        easing: 'ease-in-out',
-        once: true,
-        offset: 100
-    });
+    if (typeof AOS !== 'undefined') {
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true,
+            offset: 100
+        });
+    }
     
     // Inicializar componentes
-    initSmoothScroll();  // ← NUEVA FUNCIÓN
+    initSmoothScroll();
     initNavbar();
     initThemeToggle();
     
     // Renderizar contenido
     renderHome();
     renderAbout();
-    renderExperience();  // ← NUEVA FUNCIÓN (te la doy abajo)
+    renderExperience();
     renderProjects();
     renderContact();
     renderFooter();
 });
-// ====================================
-// EXPERIENCE SECTION
-// ====================================
-function renderExperience() {
-    const experienceContent = document.getElementById('experience-content');
-    
-    if (!CONFIG.experience || CONFIG.experience.length === 0) {
-        experienceContent.innerHTML = '<p>No hay experiencia disponible.</p>';
-        return;
-    }
-    
-    experienceContent.innerHTML = `
-        <div class="experience-timeline">
-            ${CONFIG.experience.map((exp, index) => `
-                <div class="experience-item" data-aos="fade-up" data-aos-delay="${index * 100}">
-                    <div class="experience-icon">${exp.icon}</div>
-                    <div class="experience-content">
-                        <div class="experience-header">
-                            <h3 class="experience-title">${exp.title}</h3>
-                            <span class="experience-period">${exp.period}</span>
-                        </div>
-                        <p class="experience-company">
-                            ${exp.company} ${exp.location ? `• ${exp.location}` : ''}
-                        </p>
-                        <p class="experience-description">${exp.description}</p>
-                        
-                        ${exp.achievements && exp.achievements.length > 0 ? `
-                            <ul class="experience-achievements">
-                                ${exp.achievements.map(achievement => `
-                                    <li>${achievement}</li>
-                                `).join('')}
-                            </ul>
-                        ` : ''}
-                        
-                        ${exp.technologies && exp.technologies.length > 0 ? `
-                            <div class="experience-tags">
-                                ${exp.technologies.map(tech => `
-                                    <span class="experience-tag">${tech}</span>
-                                `).join('')}
-                            </div>
-                        ` : ''}
-                    </div>
-                </div>
-            `).join('')}
-        </div>
-    `;
-}
 
 // ====================================
 // SMOOTH SCROLL Y NAVEGACIÓN
@@ -94,7 +45,7 @@ function initSmoothScroll() {
             const targetSection = document.querySelector(targetId);
             
             if (targetSection) {
-                targetSection.scrollIntoView({ behavior: 'smooth' });
+                targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 
                 // Cerrar menú móvil si está abierto
                 document.getElementById('menu-toggle').classList.remove('active');
@@ -109,7 +60,7 @@ function initSmoothScroll() {
 
 function updateActiveNavOnScroll() {
     const sections = document.querySelectorAll('.section');
-    const scrollPos = window.scrollY + 100; // Offset para navbar
+    const scrollPos = window.scrollY + 150;
     
     sections.forEach(section => {
         const top = section.offsetTop;
@@ -148,14 +99,6 @@ function initNavbar() {
     menuToggle.addEventListener('click', () => {
         menuToggle.classList.toggle('active');
         navMenu.classList.toggle('active');
-    });
-    
-    // Cerrar menu al hacer click en un link
-    document.querySelectorAll('.nav-link').forEach(link => {
-        link.addEventListener('click', () => {
-            menuToggle.classList.remove('active');
-            navMenu.classList.remove('active');
-        });
     });
 }
 
@@ -260,7 +203,7 @@ function renderAbout() {
     ).join('');
     
     aboutContent.innerHTML = `
-        <div class="about-grid">
+        <div class="about-grid" data-aos="fade-up">
             <div class="about-image">
                 <img src="${CONFIG.about.image}" alt="${CONFIG.personal.name}" onerror="this.src='https://via.placeholder.com/400x500'">
             </div>
@@ -271,24 +214,24 @@ function renderAbout() {
         </div>
         
         <div class="skills-section">
-            <h3 class="section-title">Mis Habilidades</h3>
+            <h3 class="section-title" data-aos="fade-up">Mis Habilidades</h3>
             ${renderSkillsTabs()}
             ${renderSkillsGrid()}
         </div>
     `;
     
     initSkillsFilter();
-    animateSkillBars();
+    setTimeout(animateSkillBars, 500);
 }
 
 function renderSkillsTabs() {
     const categories = ['all', ...new Set(CONFIG.skills.map(s => s.category))];
     
     return `
-        <div class="skills-tabs">
+        <div class="skills-tabs" data-aos="fade-up" data-aos-delay="100">
             ${categories.map(cat => `
                 <button class="skill-tab ${cat === 'all' ? 'active' : ''}" data-category="${cat}">
-                    ${cat === 'all' ? 'Todas' : cat.charAt(0).toUpperCase() + cat.slice(1)}
+                    ${cat === 'all' ? 'Todas' : cat}
                 </button>
             `).join('')}
         </div>
@@ -297,7 +240,7 @@ function renderSkillsTabs() {
 
 function renderSkillsGrid() {
     return `
-        <div class="skills-grid">
+        <div class="skills-grid" data-aos="fade-up" data-aos-delay="200">
             ${CONFIG.skills.map(skill => `
                 <div class="skill-item" data-category="${skill.category}">
                     <div class="skill-header">
@@ -319,11 +262,9 @@ function initSkillsFilter() {
         tab.addEventListener('click', () => {
             const category = tab.dataset.category;
             
-            // Update active tab
             document.querySelectorAll('.skill-tab').forEach(t => t.classList.remove('active'));
             tab.classList.add('active');
             
-            // Filter skills
             document.querySelectorAll('.skill-item').forEach(item => {
                 if (category === 'all' || item.dataset.category === category) {
                     item.classList.remove('hidden');
@@ -332,7 +273,6 @@ function initSkillsFilter() {
                 }
             });
             
-            // Re-animate visible bars
             setTimeout(animateSkillBars, 100);
         });
     });
@@ -349,13 +289,60 @@ function animateSkillBars() {
 }
 
 // ====================================
+// EXPERIENCE SECTION
+// ====================================
+function renderExperience() {
+    const experienceContent = document.getElementById('experience-content');
+    
+    if (!CONFIG.experience || CONFIG.experience.length === 0) {
+        experienceContent.innerHTML = '<p>No hay experiencia disponible.</p>';
+        return;
+    }
+    
+    experienceContent.innerHTML = `
+        <div class="experience-timeline">
+            ${CONFIG.experience.map((exp, index) => `
+                <div class="experience-item" data-aos="fade-up" data-aos-delay="${index * 100}">
+                    <div class="experience-icon">${exp.icon}</div>
+                    <div class="experience-content">
+                        <div class="experience-header">
+                            <h3 class="experience-title">${exp.title}</h3>
+                            <span class="experience-period">${exp.period}</span>
+                        </div>
+                        <p class="experience-company">
+                            ${exp.company}${exp.location ? ` • ${exp.location}` : ''}
+                        </p>
+                        <p class="experience-description">${exp.description}</p>
+                        
+                        ${exp.achievements && exp.achievements.length > 0 ? `
+                            <ul class="experience-achievements">
+                                ${exp.achievements.map(achievement => `
+                                    <li>${achievement}</li>
+                                `).join('')}
+                            </ul>
+                        ` : ''}
+                        
+                        ${exp.technologies && exp.technologies.length > 0 ? `
+                            <div class="experience-tags">
+                                ${exp.technologies.map(tech => `
+                                    <span class="experience-tag">${tech}</span>
+                                `).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('')}
+        </div>
+    `;
+}
+
+// ====================================
 // PROJECTS SECTION
 // ====================================
 function renderProjects() {
     const projectsGrid = document.getElementById('projects-grid');
     const projectFilters = document.getElementById('project-filters');
     
-    // Render filters
     const categories = ['all', ...new Set(CONFIG.projects.map(p => p.category))];
     projectFilters.innerHTML = categories.map(cat => `
         <button class="filter-btn ${cat === 'all' ? 'active' : ''}" data-filter="${cat}">
@@ -363,9 +350,8 @@ function renderProjects() {
         </button>
     `).join('');
     
-    // Render projects
-    projectsGrid.innerHTML = CONFIG.projects.map(project => `
-        <div class="project-card" data-category="${project.category}" data-project-id="${project.id}">
+    projectsGrid.innerHTML = CONFIG.projects.map((project, index) => `
+        <div class="project-card" data-category="${project.category}" data-project-id="${project.id}" data-aos="fade-up" data-aos-delay="${index * 100}">
             <div class="project-image">
                 <img src="${project.thumbnail}" alt="${project.title}" onerror="this.src='https://via.placeholder.com/400x300'">
                 ${project.featured ? '<span class="project-badge">Destacado</span>' : ''}
@@ -393,11 +379,9 @@ function initProjectsFilter() {
         btn.addEventListener('click', () => {
             const filter = btn.dataset.filter;
             
-            // Update active button
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             
-            // Filter projects
             document.querySelectorAll('.project-card').forEach(card => {
                 if (filter === 'all' || card.dataset.category === filter) {
                     card.classList.remove('hidden');
@@ -414,10 +398,8 @@ function initProjectModal() {
     const modalBody = document.getElementById('modal-body');
     const modalClose = document.getElementById('modal-close');
     
-    // Abrir modal al hacer click en proyecto
     document.querySelectorAll('.project-card').forEach(card => {
         card.addEventListener('click', (e) => {
-            // No abrir si se hizo click en un link
             if (e.target.closest('a')) return;
             
             const projectId = parseInt(card.dataset.projectId);
@@ -446,7 +428,6 @@ function initProjectModal() {
         });
     });
     
-    // Cerrar modal
     modalClose.addEventListener('click', () => {
         modal.classList.remove('active');
     });
@@ -466,7 +447,11 @@ function renderContact() {
     
     contactContent.innerHTML = `
         <div class="contact-grid">
-            <form class="contact-form" id="contact-form">
+            <form class="contact-form" id="contact-form" action="https://formsubmit.co/${CONFIG.personal.email}" method="POST" data-aos="fade-right">
+                <input type="hidden" name="_subject" value="Nuevo mensaje desde Portfolio">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_next" value="${window.location.href}#contact">
+                
                 <div class="form-group">
                     <label for="name">Nombre *</label>
                     <input type="text" id="name" name="name" required>
@@ -488,11 +473,9 @@ function renderContact() {
                 </div>
                 
                 <button type="submit" class="btn btn-submit">Enviar Mensaje</button>
-                
-                <div class="form-message hidden" id="form-message"></div>
             </form>
             
-            <div class="contact-info">
+            <div class="contact-info" data-aos="fade-left">
                 <div class="contact-info-item">
                     <span class="contact-icon">📧</span>
                     <div class="contact-details">
@@ -530,8 +513,6 @@ function renderContact() {
             </div>
         </div>
     `;
-    
-    initContactForm();
 }
 
 function getSocialIcon(platform) {
@@ -542,36 +523,6 @@ function getSocialIcon(platform) {
         instagram: '📷'
     };
     return icons[platform] || '🔗';
-}
-
-function initContactForm() {
-    const form = document.getElementById('contact-form');
-    const formMessage = document.getElementById('form-message');
-    
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        const formData = {
-            name: document.getElementById('name').value,
-            email: document.getElementById('email').value,
-            subject: document.getElementById('subject').value,
-            message: document.getElementById('message').value
-        };
-        
-        // Simular envío (puedes integrar con FormSubmit.co o EmailJS después)
-        formMessage.classList.remove('hidden', 'success', 'error');
-        formMessage.textContent = 'Enviando mensaje...';
-        
-        setTimeout(() => {
-            formMessage.classList.add('success');
-            formMessage.textContent = '¡Mensaje enviado correctamente! Te responderé pronto.';
-            form.reset();
-            
-            setTimeout(() => {
-                formMessage.classList.add('hidden');
-            }, 5000);
-        }, 1500);
-    });
 }
 
 // ====================================
@@ -594,6 +545,7 @@ function renderFooter() {
                     <ul class="footer-links">
                         <li><a href="#home">Inicio</a></li>
                         <li><a href="#about">Sobre Mí</a></li>
+                        <li><a href="#experience">Experiencia</a></li>
                         <li><a href="#projects">Proyectos</a></li>
                         <li><a href="#contact">Contacto</a></li>
                     </ul>
