@@ -449,19 +449,56 @@ document.addEventListener('DOMContentLoaded', () => {
 // STATS SECTION
 // ====================================
 function renderStats() {
-    const statsContent = document.getElementById('stats-content');
+    const statsGrid = document.getElementById('stats-grid');
     
-    statsContent.innerHTML = CONFIG.stats.map((stat, index) => `
+    if (!CONFIG.stats || CONFIG.stats.length === 0) return;
+    
+    statsGrid.innerHTML = CONFIG.stats.map((stat, index) => `
         <div class="stat-card" data-aos="fade-up" data-aos-delay="${index * 100}">
             <span class="stat-icon">${stat.icon}</span>
-            <h3 class="stat-number" data-target="${stat.number}">${stat.number}</h3>
-            <p class="stat-label">${stat.label}</p>
+            <span class="stat-number" data-target="${stat.number}">${stat.suffix}</span>
+            <span class="stat-label">${stat.label}</span>
         </div>
     `).join('');
+    
+    // Animación de conteo
+    animateStats();
 }
 
-// Añadir en DOMContentLoaded:
-renderStats();
+function animateStats() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const statNumbers = entry.target.querySelectorAll('.stat-number');
+                statNumbers.forEach(statNumber => {
+                    const target = parseInt(statNumber.dataset.target);
+                    const suffix = statNumber.textContent.replace(/[0-9]/g, '');
+                    let current = 0;
+                    const increment = target / 50;
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= target) {
+                            statNumber.textContent = target + suffix;
+                            clearInterval(timer);
+                        } else {
+                            statNumber.textContent = Math.floor(current) + suffix;
+                        }
+                    }, 30);
+                });
+                observer.unobserve(entry.target);
+            }
+        });
+    });
+    
+    observer.observe(document.getElementById('stats-grid'));
+}
+
+// Añadir al DOMContentLoaded
+document.addEventListener('DOMContentLoaded', () => {
+    // ... código existente ...
+    renderStats(); // ← AÑADIR
+});
+
 // ====================================
 // BACK TO TOP BUTTON
 // ====================================
