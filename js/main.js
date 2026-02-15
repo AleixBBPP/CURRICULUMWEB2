@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Renderizar contenido
     renderHome();
+    renderStats(); // ← Entre renderHome() y renderAbout()
     renderAbout();
     renderExperience();
     renderContact();
