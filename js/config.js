@@ -96,25 +96,25 @@ const CONFIG = {
     // ===== HABILIDADES =====
     skills: [
         // Análisis y Finanzas
-        { name: "Análisis fundamental de empresas", level: 85, category: "Análisis y Finanzas", icon: "📊" },
-        { name: "Valoración financiera (DCF, ratios, múltiplos)", level: 80, category: "Análisis y Finanzas", icon: "📈" },
-        { name: "Interpretación de estados financieros", level: 85, category: "Análisis y Finanzas", icon: "📑" },
-        { name: "Toma de decisiones bajo incertidumbre", level: 80, category: "Análisis y Finanzas", icon: "🎯" },
-        { name: "Pensamiento lógico-analítico", level: 90, category: "Análisis y Finanzas", icon: "🧠" },
+        { name: "Análisis fundamental de empresas", icon: "📊" },
+        { name: "Valoración financiera (DCF, ratios, múltiplos)", icon: "📈" },
+        { name: "Interpretación de estados financieros", icon: "📑" },
+        { name: "Toma de decisiones bajo incertidumbre", icon: "🎯" },
+        { name: "Pensamiento lógico-analítico", icon: "🧠" },
         
         // Negocio y Estrategia
-        { name: "Mentalidad emprendedora", level: 90, category: "Negocio y Estrategia", icon: "🚀" },
-        { name: "Detección de oportunidades de negocio", level: 80, category: "Negocio y Estrategia", icon: "🔎" },
-        { name: "Negociación", level: 70, category: "Negocio y Estrategia", icon: "🤝" },
-        { name: "Ventas consultivas", level: 75, category: "Negocio y Estrategia", icon: "💼" },
-        { name: "Visión estratégica a medio plazo", level: 85, category: "Negocio y Estrategia", icon: "♟️" },
+        { name: "Mentalidad emprendedora", icon: "🚀" },
+        { name: "Detección de oportunidades de negocio", icon: "🔎" },
+        { name: "Negociación", icon: "🤝" },
+        { name: "Ventas consultivas", icon: "💼" },
+        { name: "Visión estratégica a medio plazo", icon: "♟️" },
         
         // Comunicación y Herramientas
-        { name: "Oratoria y comunicación persuasiva", level: 85, category: "Comunicación y Herramientas", icon: "🎤" },
-        { name: "Capacidad de enseñanza y explicación", level: 85, category: "Comunicación y Herramientas", icon: "📚" },
-        { name: "Excel (modelización básica-intermedia)", level: 75, category: "Comunicación y Herramientas", icon: "📊" },
-        { name: "Diseño web básico", level: 70, category: "Comunicación y Herramientas", icon: "💻" },
-        { name: "Inglés (C1)", level: 85, category: "Comunicación y Herramientas", icon: "🌍" },
+        { name: "Oratoria y comunicación persuasiva", icon: "🎤" },
+        { name: "Capacidad de enseñanza y explicación", icon: "📚" },
+        { name: "Excel (modelización básica-intermedia)", icon: "📊" },
+        { name: "Diseño web básico", icon: "💻" },
+        { name: "Inglés (C1)", icon: "🌍" },
     ],
     
     // ===== PROYECTOS =====
