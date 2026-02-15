@@ -1306,4 +1306,18 @@ body {
         display: none; /* Ocultar en móvil para no saturar */
     }
 }
+/* ====================================
+   SCROLL PROGRESS BAR
+   ==================================== */
+
+.scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+    width: 0%;
+    z-index: 9999;
+    transition: width 0.1s ease;
+}
 
