@@ -1320,4 +1320,53 @@ body {
     z-index: 9999;
     transition: width 0.1s ease;
 }
+/* ====================================
+   STATS SECTION
+   ==================================== */
+
+.section-stats {
+    min-height: auto;
+    padding: var(--space-2xl) 0;
+    background-color: var(--color-bg-secondary);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-xl);
+}
+
+.stat-card {
+    text-align: center;
+    padding: var(--space-xl);
+    background-color: var(--color-bg);
+    border-radius: 12px;
+    border: 1px solid var(--color-border);
+    transition: all var(--transition);
+}
+
+.stat-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--color-primary);
+}
+
+.stat-icon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: var(--space-sm);
+}
+
+.stat-number {
+    font-size: var(--font-4xl);
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: var(--space-xs);
+}
+
+.stat-label {
+    color: var(--color-text-secondary);
+    font-size: var(--font-lg);
+    font-weight: 500;
+}
 
