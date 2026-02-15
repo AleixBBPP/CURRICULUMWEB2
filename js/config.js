@@ -22,7 +22,34 @@ const CONFIG = {
             "Divulgador económico"
         ]
     },
-    
+    // ===== ESTADÍSTICAS CLAVE =====
+stats: [
+    {
+        number: 4,
+        suffix: "+",
+        label: "Años Invirtiendo",
+        icon: "📊"
+    },
+    {
+        number: 100,
+        suffix: "+",
+        label: "Análisis de Empresas",
+        icon: "🔍"
+    },
+    {
+        number: 15,
+        suffix: "+",
+        label: "Sectores Analizados",
+        icon: "🏢"
+    },
+    {
+        number: 2,
+        suffix: "",
+        label: "Idiomas",
+        icon: "🌍"
+    }
+],
+
     // ===== REDES SOCIALES =====
     social: {
         github: "https://github.com/AleixBBPP",
@@ -188,11 +215,3 @@ skills: {
 
 // Hacer CONFIG disponible globalmente
 window.CONFIG = CONFIG;
-
-// ===== ESTADÍSTICAS DESTACADAS =====
-stats: [
-    { number: "6+", label: "Años invirtiendo", icon: "📈" },
-    { number: "250+", label: "Análisis realizados", icon: "📊" },
-    { number: "100%", label: "Dedicación", icon: "🎯" },
-    { number: "C1", label: "Nivel de Inglés", icon: "🌍" }
-],
