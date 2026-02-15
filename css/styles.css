@@ -1085,4 +1085,217 @@ body {
         align-items: center;
     }
 }
+/* ====================================
+   MEJORAS HERO SECTION
+   ==================================== */
+
+.section-home {
+    position: relative;
+    background: linear-gradient(135deg, 
+        var(--color-bg) 0%, 
+        var(--color-bg-secondary) 50%, 
+        var(--color-bg) 100%);
+    overflow: hidden;
+}
+
+/* Fondo animado con gradiente */
+.section-home::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, 
+        rgba(59, 130, 246, 0.1) 0%, 
+        transparent 70%);
+    animation: rotate 20s linear infinite;
+    z-index: 0;
+}
+
+.section-home::after {
+    content: '';
+    position: absolute;
+    bottom: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, 
+        rgba(139, 92, 246, 0.08) 0%, 
+        transparent 70%);
+    animation: rotate 25s linear reverse infinite;
+    z-index: 0;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Hero content encima del fondo */
+.hero-content {
+    position: relative;
+    z-index: 1;
+}
+
+/* Efecto de luz en el avatar */
+.hero-avatar {
+    position: relative;
+    animation: float 6s ease-in-out infinite;
+}
+
+.hero-avatar::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: linear-gradient(45deg, 
+        var(--color-primary), 
+        var(--color-secondary), 
+        var(--color-accent));
+    border-radius: 50%;
+    z-index: -1;
+    opacity: 0.3;
+    filter: blur(20px);
+    animation: pulse 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 0.3;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.6;
+        transform: scale(1.05);
+    }
+}
+
+/* Mejora en los botones del hero */
+.hero-cta {
+    margin-top: var(--space-xl);
+}
+
+.hero-cta .btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-cta .btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.hero-cta .btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+/* Ajuste del texto principal */
+.hero-greeting {
+    animation: fadeInDown 1s ease;
+}
+
+.hero-title {
+    animation: fadeInUp 1s ease 0.2s both;
+}
+
+.hero-tagline {
+    animation: fadeInUp 1s ease 0.4s both;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Partículas flotantes (opcional) */
+.hero-content::before {
+    content: '✦';
+    position: absolute;
+    top: 20%;
+    left: 10%;
+    font-size: 2rem;
+    color: var(--color-primary);
+    opacity: 0.3;
+    animation: floatParticle 8s ease-in-out infinite;
+}
+
+.hero-content::after {
+    content: '✦';
+    position: absolute;
+    top: 60%;
+    right: 15%;
+    font-size: 1.5rem;
+    color: var(--color-secondary);
+    opacity: 0.2;
+    animation: floatParticle 10s ease-in-out infinite reverse;
+}
+
+@keyframes floatParticle {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.2;
+    }
+    50% {
+        transform: translateY(-30px) rotate(180deg);
+        opacity: 0.4;
+    }
+}
+
+/* Responsive - ajustar en móviles */
+@media (max-width: 768px) {
+    .section-home::before,
+    .section-home::after {
+        display: none; /* Simplificar en móvil */
+    }
+    
+    .hero-content::before,
+    .hero-content::after {
+        display: none;
+    }
+}
 
