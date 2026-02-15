@@ -393,10 +393,25 @@ body {
 
 .skills-categories-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(4, 1fr); /* ← 4 columnas fijas en desktop */
     gap: var(--space-lg);
     margin-top: var(--space-xl);
 }
+
+/* Responsive para tablet */
+@media (max-width: 1024px) {
+    .skills-categories-grid {
+        grid-template-columns: repeat(2, 1fr); /* ← 2x2 en tablet */
+    }
+}
+
+/* Responsive para móvil */
+@media (max-width: 768px) {
+    .skills-categories-grid {
+        grid-template-columns: 1fr; /* ← 1 columna en móvil */
+    }
+}
+
 
 .skill-category-card {
     background-color: var(--color-bg-secondary);
