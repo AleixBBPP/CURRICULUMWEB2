@@ -191,8 +191,8 @@ window.CONFIG = CONFIG;
 
 // ===== ESTADÍSTICAS DESTACADAS =====
 stats: [
-    { number: "4+", label: "Años invirtiendo", icon: "📈" },
-    { number: "15+", label: "Análisis realizados", icon: "📊" },
+    { number: "6+", label: "Años invirtiendo", icon: "📈" },
+    { number: "250+", label: "Análisis realizados", icon: "📊" },
     { number: "100%", label: "Dedicación", icon: "🎯" },
     { number: "C1", label: "Nivel de Inglés", icon: "🌍" }
 ],
