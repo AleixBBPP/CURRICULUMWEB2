@@ -405,7 +405,9 @@ body {
     font-weight: 600;
     text-transform: capitalize;
     transition: all var(--transition);
+    color: var(--color-text);  /* ← AÑADE ESTA LÍNEA */
 }
+
 
 .skill-tab.active {
     background-color: var(--color-primary);
