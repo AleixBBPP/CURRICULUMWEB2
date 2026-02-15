@@ -498,6 +498,7 @@ body {
     cursor: pointer;
     font-weight: 600;
     transition: all var(--transition);
+    color: var(--color-text);  /* ← AÑADE SOLO ESTA LÍNEA */
 }
 
 .filter-btn.active {
