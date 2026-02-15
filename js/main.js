@@ -385,10 +385,13 @@ function renderFooter() {
                 <div class="footer-section">
                     <h4>${CONFIG.personal.name}</h4>
                     <p>${CONFIG.personal.title}</p>
+                    <p style="margin-top: var(--space-sm); color: var(--color-text-secondary); font-size: 0.9rem;">
+                        ${CONFIG.personal.location}
+                    </p>
                 </div>
                 
                 <div class="footer-section">
-                    <h4>Enlaces</h4>
+                    <h4>Navegación</h4>
                     <ul class="footer-links">
                         <li><a href="#home">Inicio</a></li>
                         <li><a href="#about">Sobre Mí</a></li>
@@ -398,10 +401,18 @@ function renderFooter() {
                 </div>
                 
                 <div class="footer-section">
-                    <h4>Redes Sociales</h4>
+                    <h4>Contacto Rápido</h4>
+                    <ul class="footer-links">
+                        <li><a href="mailto:${CONFIG.personal.email}">${CONFIG.personal.email}</a></li>
+                        <li><a href="tel:${CONFIG.personal.phone}">${CONFIG.personal.phone}</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Sígueme</h4>
                     <div class="social-links">
                         ${Object.entries(CONFIG.social).filter(([k, v]) => v).map(([platform, url]) => `
-                            <a href="${url}" target="_blank" class="social-link" title="${platform}">
+                            <a href="${url}" target="_blank" rel="noopener noreferrer" class="social-link" title="${platform}">
                                 ${getSocialIcon(platform)}
                             </a>
                         `).join('')}
@@ -411,8 +422,26 @@ function renderFooter() {
             
             <div class="footer-bottom">
                 <p>&copy; ${currentYear} ${CONFIG.personal.name}. Todos los derechos reservados.</p>
-                <p>Hecho con ❤️ y mucho café</p>
+                <p>Diseñado y desarrollado con ❤️</p>
             </div>
         </div>
     `;
 }
+// ====================================
+// SCROLL PROGRESS BAR
+// ====================================
+function initScrollProgress() {
+    const progressBar = document.getElementById('scroll-progress');
+    
+    window.addEventListener('scroll', () => {
+        const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (window.scrollY / windowHeight) * 100;
+        progressBar.style.width = scrolled + '%';
+    });
+}
+
+// Añadir al DOMContentLoaded
+document.addEventListener('DOMContentLoaded', () => {
+    // ... código existente ...
+    initScrollProgress(); // ← AÑADE ESTA LÍNEA
+});
