@@ -462,3 +462,30 @@ function renderStats() {
 
 // Añadir en DOMContentLoaded:
 renderStats();
+// ====================================
+// BACK TO TOP BUTTON
+// ====================================
+function initBackToTop() {
+    const backToTopBtn = document.getElementById('back-to-top');
+    
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+            backToTopBtn.classList.add('visible');
+        } else {
+            backToTopBtn.classList.remove('visible');
+        }
+    });
+    
+    backToTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+}
+
+// Añadir al DOMContentLoaded
+document.addEventListener('DOMContentLoaded', () => {
+    // ... código existente ...
+    initBackToTop(); // ← AÑADIR
+});
