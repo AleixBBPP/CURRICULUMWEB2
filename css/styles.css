@@ -1504,3 +1504,32 @@ body {
         transform: scale(1);
     }
 }
+/* ====================================
+   PRINT STYLES
+   ==================================== */
+
+@media print {
+    .navbar,
+    .loader,
+    .back-to-top,
+    .scroll-progress,
+    .theme-toggle {
+        display: none !important;
+    }
+    
+    .section {
+        page-break-inside: avoid;
+        min-height: auto;
+        padding: 20px 0;
+    }
+    
+    body {
+        background: white;
+        color: black;
+    }
+    
+    a {
+        color: black;
+        text-decoration: underline;
+    }
+}
