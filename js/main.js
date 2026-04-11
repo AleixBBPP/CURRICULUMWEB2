@@ -424,9 +424,7 @@ function renderExperience() {
         </div>
     `;
 }
-// ====================================
-// ANALYSIS SECTION
-// ====================================
+
 // ====================================
 // ANALYSIS SECTION
 // ====================================
@@ -532,9 +530,35 @@ function openAnalysisModal(id) {
             <h2 class="analysis-modal-title">${item.detailTitle}</h2>
             <p class="analysis-modal-thesis">${item.thesis}</p>
 
+            <div class="analysis-summary-grid">
+                <div class="analysis-summary-card">
+                    <span class="analysis-summary-label">Tipo de idea</span>
+                    <span class="analysis-summary-value">${item.type}</span>
+                </div>
+                <div class="analysis-summary-card">
+                    <span class="analysis-summary-label">Horizonte</span>
+                    <span class="analysis-summary-value">${item.horizon}</span>
+                </div>
+                <div class="analysis-summary-card">
+                    <span class="analysis-summary-label">Convicción</span>
+                    <span class="analysis-summary-value">${item.conviction}</span>
+                </div>
+                <div class="analysis-summary-card">
+                    <span class="analysis-summary-label">Riesgo principal</span>
+                    <span class="analysis-summary-value">${item.primaryRisk}</span>
+                </div>
+            </div>
+
             <div class="analysis-modal-section">
-                <h3>Desarrollo</h3>
+                <h3>Idea central</h3>
                 ${item.detailText.map(paragraph => `<p>${paragraph}</p>`).join('')}
+            </div>
+
+            <div class="analysis-modal-section">
+                <h3>Catalizadores / qué vigilo</h3>
+                <ul class="analysis-risk-list">
+                    ${item.catalysts.map(point => `<li>${point}</li>`).join('')}
+                </ul>
             </div>
 
             <div class="analysis-modal-section">
