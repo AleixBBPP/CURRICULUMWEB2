@@ -159,7 +159,8 @@ function initThemeToggle() {
     document.documentElement.setAttribute('data-theme', savedTheme);
 
     if (themeIcon) {
-        themeIcon.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+    themeIcon.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+    themeToggle.setAttribute('aria-label', savedTheme === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro');
     }
 
     themeToggle.addEventListener('click', () => {
@@ -173,7 +174,8 @@ function initThemeToggle() {
         } catch (e) {}
 
         if (themeIcon) {
-            themeIcon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+        themeIcon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+        themeToggle.setAttribute('aria-label', newTheme === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro');
         }
     });
 }
