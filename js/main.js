@@ -1,10 +1,11 @@
-// ====================================
+        // ====================================
 // MAIN.JS - PORTFOLIO LANDING PAGE
 // ====================================
 
 // ====================================
 // INICIALIZACIÓN
 // ====================================
+let currentLang = 'es';
 document.addEventListener('DOMContentLoaded', () => {
     try {
         setTimeout(() => {
@@ -24,9 +25,12 @@ document.addEventListener('DOMContentLoaded', () => {
         initSmoothScroll();
         initNavbar();
         initThemeToggle();
+        initLanguageToggle();
         initScrollProgress();
         initBackToTop();
         initProjectModal();
+
+        updateStaticTexts();
 
         renderHome();
         renderStats();
@@ -35,7 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
         renderAnalysis();
         renderContact();
         renderFooter();
-
     } catch (error) {
         console.error('Error al inicializar la web:', error);
         const loader = document.getElementById('loader');
@@ -180,7 +183,77 @@ function initThemeToggle() {
         }
     });
 }
+// ====================================
+// LANGUAGE TOGGLE
+// ====================================
+function initLanguageToggle() {
+    const langToggle = document.getElementById('lang-toggle');
+    if (!langToggle) return;
 
+    try {
+        currentLang = localStorage.getItem('lang') || 'es';
+    } catch (e) {
+        currentLang = 'es';
+    }
+
+    updateLangToggleUI();
+
+    langToggle.addEventListener('click', () => {
+        currentLang = currentLang === 'es' ? 'en' : 'es';
+
+        try {
+            localStorage.setItem('lang', currentLang);
+        } catch (e) {}
+
+        updateLangToggleUI();
+        updateStaticTexts();
+        rerenderAllContent();
+    });
+}
+
+function updateLangToggleUI() {
+    document.querySelectorAll('[data-lang-label]').forEach(el => {
+        el.classList.remove('active');
+        if (el.dataset.langLabel === currentLang) {
+            el.classList.add('active');
+        }
+    });
+}
+
+function updateStaticTexts() {
+    const navCta = document.getElementById('nav-cta-text');
+    if (navCta) {
+        navCta.textContent = currentLang === 'es' ? 'Contrátame' : 'Hire me';
+    }
+
+    const navLinks = document.querySelectorAll('.nav-link');
+    const labels = currentLang === 'es'
+        ? ['Inicio', 'Sobre mí', 'Experiencia', 'Análisis', 'Contacto']
+        : ['Home', 'About', 'Experience', 'Analysis', 'Contact'];
+
+    navLinks.forEach((link, index) => {
+        if (labels[index]) link.textContent = labels[index];
+    });
+
+    const sectionTitles = document.querySelectorAll('.section-title');
+    const titles = currentLang === 'es'
+        ? ['Sobre mí', 'Experiencia profesional', 'Análisis', 'Contacto']
+        : ['About me', 'Professional experience', 'Analysis', 'Contact'];
+
+    sectionTitles.forEach((title, index) => {
+        if (titles[index]) title.textContent = titles[index];
+    });
+}
+
+function rerenderAllContent() {
+    renderHome();
+    renderStats();
+    renderAbout();
+    renderExperience();
+    renderAnalysis();
+    renderContact();
+    renderFooter();
+}
 // ====================================
 // HOME SECTION
 // ====================================
