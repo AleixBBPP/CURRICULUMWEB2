@@ -1191,6 +1191,14 @@ button.btn {
         flex-direction: column;
         align-items: flex-start;
     }
+    .analysis-modal-dual,
+    .analysis-summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .analysis-modal-title {
+        max-width: none;
+    }
 }
 
 @media (max-width: 640px) {
@@ -1232,6 +1240,12 @@ button.btn {
 
     .analysis-card {
     padding: 1.25rem;
+    }
+     .analysis-modal-hero,
+    .analysis-modal-block,
+    .analysis-conclusion-box,
+    .analysis-summary-card {
+        padding: 1rem;
     }
   }
 /* ====================================
