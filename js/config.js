@@ -202,9 +202,9 @@ skills: {
     
     // ===== TEMA DE COLORES =====
     theme: {
-        primaryColor: "#3b82f6",
-        secondaryColor: "#8b5cf6",
-        accentColor: "#10b981",
+    primaryColor: "#17c7b5",
+    secondaryColor: "#c8a96b",
+    accentColor: "#10b3a3",
     }
 };
 
