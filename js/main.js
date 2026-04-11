@@ -427,11 +427,21 @@ function renderExperience() {
 // ====================================
 // ANALYSIS SECTION
 // ====================================
+// ====================================
+// ANALYSIS SECTION
+// ====================================
 function renderAnalysis() {
     const analysisContent = document.getElementById('analysis-content');
     if (!analysisContent || !CONFIG.analysis || CONFIG.analysis.length === 0) return;
 
     analysisContent.innerHTML = `
+        <div class="analysis-intro" data-aos="fade-up">
+            <p>
+                Una selección de ideas, marcos y seguimientos que resumen cómo analizo empresas,
+                sectores y contextos de mercado.
+            </p>
+        </div>
+
         <div class="analysis-grid">
             ${CONFIG.analysis.map((item, index) => `
                 <article
@@ -450,6 +460,22 @@ function renderAnalysis() {
 
                     <h3 class="analysis-title">${item.title}</h3>
                     <p class="analysis-excerpt">${item.excerpt}</p>
+
+                    <div class="analysis-metrics">
+                        <div class="analysis-metric">
+                            <span class="analysis-metric-label">Tipo</span>
+                            <span class="analysis-metric-value">${item.type}</span>
+                        </div>
+                        <div class="analysis-metric">
+                            <span class="analysis-metric-label">Horizonte</span>
+                            <span class="analysis-metric-value">${item.horizon}</span>
+                        </div>
+                        <div class="analysis-metric">
+                            <span class="analysis-metric-label">Convicción</span>
+                            <span class="analysis-metric-value">${item.conviction}</span>
+                        </div>
+                    </div>
+
                     <p class="analysis-thesis">${item.thesis}</p>
 
                     <div class="analysis-tags">
@@ -459,7 +485,7 @@ function renderAnalysis() {
                     </div>
 
                     <button class="analysis-open-btn" type="button">
-                        Ver análisis
+                        Ver tesis completa
                     </button>
                 </article>
             `).join('')}
