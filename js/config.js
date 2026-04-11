@@ -1,4 +1,56 @@
 window.CONFIG = {
+    ui: {
+        nav: {
+            home: { es: "Inicio", en: "Home" },
+            about: { es: "Sobre mí", en: "About" },
+            experience: { es: "Experiencia", en: "Experience" },
+            analysis: { es: "Análisis", en: "Analysis" },
+            contact: { es: "Contacto", en: "Contact" },
+            hire: { es: "Contrátame", en: "Hire me" }
+        },
+        sections: {
+            about: { es: "Sobre mí", en: "About me" },
+            experience: { es: "Experiencia", en: "Experience" },
+            analysis: { es: "Análisis", en: "Analysis" },
+            contact: { es: "Contacto", en: "Contact" }
+        },
+        analysis: {
+            intro: {
+                es: "Una selección de ideas, marcos y seguimientos que resumen cómo analizo empresas, sectores y contextos de mercado.",
+                en: "A selection of ideas, frameworks, and ongoing follow-ups that reflect how I analyze companies, sectors, and market environments."
+            },
+            openButton: {
+                es: "Ver tesis completa",
+                en: "View full thesis"
+            },
+            labels: {
+                type: { es: "Tipo", en: "Type" },
+                horizon: { es: "Horizonte", en: "Horizon" },
+                conviction: { es: "Convicción", en: "Conviction" },
+                thesisType: { es: "Tipo de idea", en: "Idea type" },
+                primaryRisk: { es: "Riesgo principal", en: "Main risk" },
+                coreIdea: { es: "Idea central", en: "Core idea" },
+                catalysts: { es: "Catalizadores / qué vigilo", en: "Catalysts / what I watch" },
+                risks: { es: "Riesgos / puntos a vigilar", en: "Risks / points to watch" },
+                conclusion: { es: "Conclusión", en: "Conclusion" }
+            }
+        },
+        contact: {
+            title: { es: "Contacto", en: "Contact" },
+            text: {
+                es: "Si quieres hablar sobre mercados, análisis, inversión o una oportunidad profesional, estaré encantado de conectar.",
+                en: "If you want to talk about markets, analysis, investing, or a professional opportunity, I’d be happy to connect."
+            },
+            button: { es: "Escríbeme", en: "Get in touch" }
+        },
+        footer: {
+            rights: {
+                es: "Todos los derechos reservados.",
+                en: "All rights reserved."
+            }
+        }
+    },
+
     personal: {
         name: "Aleix Bosch Pérez",
         title: {
@@ -77,7 +129,6 @@ window.CONFIG = {
                 "I enjoy working with complex ideas, structuring them clearly, and communicating them in a simple way. My goal is to keep building judgment, analytical depth, and a strong professional path within finance."
             ]
         },
-
         skills: [
             {
                 category: {
@@ -251,7 +302,6 @@ window.CONFIG = {
                 en: "I see it as an excellent company, although the entry point remains crucial in separating a great business from a great investment."
             }
         },
-
         {
             id: "luxury-sector",
             title: {
@@ -341,7 +391,6 @@ window.CONFIG = {
                 en: "It is a sector where asset quality matters enormously, but also one where the price paid completely changes future returns."
             }
         },
-
         {
             id: "rates-market",
             title: {
@@ -434,18 +483,8 @@ window.CONFIG = {
     ],
 
     contact: {
-        title: {
-            es: "Contacto",
-            en: "Contact"
-        },
-        text: {
-            es: "Si quieres hablar sobre mercados, análisis, inversión o una oportunidad profesional, estaré encantado de conectar.",
-            en: "If you want to talk about markets, analysis, investing, or a professional opportunity, I’d be happy to connect."
-        },
-        cta: {
-            es: "Escríbeme",
-            en: "Get in touch"
-        }
+        email: "aleixboschperez@gmail.com",
+        phone: "+34 600 000 000"
     },
 
     social: [
