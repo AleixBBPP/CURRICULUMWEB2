@@ -76,7 +76,74 @@ window.CONFIG = {
             { icon: "🗣️", name: "Comunicación clara" }
         ]
     },
-
+    analysis: [
+    {
+        id: "microsoft",
+        title: "Microsoft: calidad, escala y disciplina en capital",
+        category: "Empresa",
+        status: "En seguimiento",
+        excerpt: "Negocio de altísima calidad, con ventaja competitiva clara en software empresarial, cloud y ecosistema.",
+        thesis: "La tesis se apoya en recurrencia, pricing power, diversificación y una asignación de capital históricamente sólida.",
+        tags: ["Moat", "Cloud", "Calidad", "Asignación de capital"],
+        detailTitle: "Microsoft como compuesto de calidad a largo plazo",
+        detailText: [
+            "Microsoft me parece una de las compañías más completas del mercado por la combinación de escala, recurrencia, ecosistema y disciplina operativa.",
+            "Su fortaleza no depende de un único producto, sino de una base empresarial muy integrada: Office, Azure, Windows, seguridad, herramientas de productividad y software corporativo.",
+            "Lo que más valor aporta en el análisis no es solo el crecimiento, sino la calidad del crecimiento: márgenes fuertes, clientes recurrentes y una posición difícil de replicar.",
+            "También me interesa cómo asigna capital y cómo consigue reforzar su moat sin perder foco estratégico."
+        ],
+        risks: [
+            "Valoración exigente en determinados momentos del ciclo.",
+            "Dependencia parcial de expectativas altas en cloud e IA.",
+            "Riesgo regulatorio por tamaño y posición competitiva."
+        ],
+        conclusion: "La vería como una compañía excelente, aunque el punto de entrada sigue siendo clave para separar gran negocio de gran inversión."
+    },
+    {
+        id: "luxury-sector",
+        title: "Lujo europeo: marca, pricing power y resiliencia",
+        category: "Sector",
+        status: "Estudiando",
+        excerpt: "El lujo me interesa como categoría por su capacidad de mantener márgenes altos y proteger marca en ciclos complejos.",
+        thesis: "Las mejores compañías del sector suelen combinar intangibles fuertes, control de distribución y una demanda menos sensible al precio.",
+        tags: ["Lujo", "Marca", "Pricing power", "Margen"],
+        detailTitle: "Por qué el lujo sigue siendo un sector tan interesante",
+        detailText: [
+            "El sector lujo me parece especialmente atractivo porque refleja muy bien el valor de los activos intangibles.",
+            "Las mejores empresas no compiten solo por producto, sino por marca, identidad, percepción y control de oferta.",
+            "Eso les permite sostener pricing power, proteger márgenes y mantener una relación distinta con el consumidor.",
+            "Aun así, no todas las empresas del sector son iguales: hay que separar marcas excepcionales de negocios simplemente aspiracionales."
+        ],
+        risks: [
+            "Dependencia de demanda internacional y ciclos de consumo.",
+            "Sensibilidad a China y al turismo global.",
+            "Valoraciones que a veces descuentan demasiada perfección."
+        ],
+        conclusion: "Es un sector donde la calidad del activo importa muchísimo, pero también donde el precio pagado cambia por completo la rentabilidad futura."
+    },
+    {
+        id: "rates-market",
+        title: "Tipos, liquidez y compresión de múltiplos",
+        category: "Macro",
+        status: "Activo",
+        excerpt: "Cuando cambia el precio del dinero, cambian también las valoraciones, el apetito por riesgo y la narrativa del mercado.",
+        thesis: "Entender tipos y liquidez ayuda a interpretar por qué algunos activos se expanden o comprimen incluso sin grandes cambios operativos.",
+        tags: ["Macro", "Tipos", "Liquidez", "Valoración"],
+        detailTitle: "La importancia del precio del dinero en los mercados",
+        detailText: [
+            "Uno de los marcos que más me interesa seguir es la relación entre tipos de interés, liquidez y valoración.",
+            "Muchas veces el mercado parece moverse solo por resultados empresariales, pero el entorno monetario condiciona mucho más de lo que parece.",
+            "Cuando el tipo libre de riesgo sube, los múltiplos tienden a comprimirse, especialmente en activos donde gran parte del valor depende del futuro lejano.",
+            "Por eso me gusta analizar empresas no solo por fundamentales internos, sino también dentro del régimen macro en el que cotizan."
+        ],
+        risks: [
+            "Sobreinterpretar el corto plazo macro.",
+            "Confundir narrativa de mercado con cambio estructural.",
+            "Usar el marco macro para justificar cualquier movimiento del precio."
+        ],
+        conclusion: "La macro no sustituye al análisis empresarial, pero sí ayuda a entender el contexto en el que se forma el precio."
+    }
+],
     experience: [
         {
             icon: "🎓",
