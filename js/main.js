@@ -2,35 +2,47 @@
 // MAIN.JS - LANDING PAGE
 // ====================================
 
-// ===== INICIALIZACIÓN =====
+// ====================================
+// INICIALIZACIÓN
+// ====================================
 document.addEventListener('DOMContentLoaded', () => {
-    // Ocultar loader
-    setTimeout(() => {
-        document.getElementById('loader').classList.add('hidden');
-    }, 500);
-    
-    // Inicializar AOS (animaciones)
-    if (typeof AOS !== 'undefined') {
-        AOS.init({
-            duration: 800,
-            easing: 'ease-in-out',
-            once: true,
-            offset: 100
-        });
+    try {
+        // Ocultar loader
+        setTimeout(() => {
+            const loader = document.getElementById('loader');
+            if (loader) loader.classList.add('hidden');
+        }, 500);
+
+        // Inicializar AOS (animaciones)
+        if (typeof AOS !== 'undefined') {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true,
+                offset: 100
+            });
+        }
+
+        // Inicializar componentes
+        initSmoothScroll();
+        initNavbar();
+        initThemeToggle();
+        initScrollProgress();
+        initBackToTop();
+
+        // Renderizar contenido
+        renderHome();
+        renderStats();
+        renderAbout();
+        renderExperience();
+        renderContact();
+        renderFooter();
+
+    } catch (error) {
+        console.error('Error al inicializar la web:', error);
+        const loader = document.getElementById('loader');
+        if (loader) loader.classList.add('hidden');
     }
-    
-    // Inicializar componentes
-    initSmoothScroll();
-    initNavbar();
-    initThemeToggle();
-    
-    // Renderizar contenido
-    renderHome();
-    renderStats(); // ← Entre renderHome() y renderAbout()
-    renderAbout();
-    renderExperience();
-    renderContact();
-    renderFooter();
 });
 
 // ====================================
