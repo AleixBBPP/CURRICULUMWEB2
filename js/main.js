@@ -130,26 +130,43 @@ function initThemeToggle() {
 // ====================================
 function renderHome() {
     const heroContent = document.getElementById('hero-content');
-    
+
     heroContent.innerHTML = `
-        <div class="hero-avatar">
-            <img src="${CONFIG.personal.avatar}" alt="${CONFIG.personal.name}" onerror="this.src='https://via.placeholder.com/150'">
-        </div>
-        <h1 class="hero-greeting">
-            Hola, soy <span class="highlight">${CONFIG.personal.name}</span>
-        </h1>
-        <h2 class="hero-title">
-            <span class="typing-text"></span>
-            <span class="cursor">|</span>
-        </h2>
-        <p class="hero-tagline">${CONFIG.personal.tagline}</p>
-        <div class="hero-cta">
-            <a href="${CONFIG.personal.cvUrl}" class="btn btn-secondary" ${CONFIG.personal.cvUrl !== '#' ? 'download' : ''}>Descargar CV</a>
+        <div class="hero-shell">
+            <div class="hero-copy">
+                <span class="hero-kicker">ECONOMÍA · INVERSIÓN · ESTRATEGIA</span>
+
+                <h1 class="hero-greeting">
+                    Hola, soy <span class="highlight">${CONFIG.personal.name}</span>
+                </h1>
+
+                <h2 class="hero-title">
+                    <span class="typing-text"></span>
+                    <span class="cursor">|</span>
+                </h2>
+
+                <p class="hero-tagline">${CONFIG.personal.tagline}</p>
+
+                <div class="hero-cta">
+                    <a href="#contact" class="btn btn-primary">Hablemos</a>
+                    <a href="${CONFIG.personal.cvUrl}" class="btn btn-secondary" ${CONFIG.personal.cvUrl !== '#' ? 'download' : ''}>Descargar CV</a>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="hero-avatar-wrap">
+                    <img
+                        src="${CONFIG.personal.avatar}"
+                        alt="${CONFIG.personal.name}"
+                        onerror="this.src='https://placehold.co/320x320/0b0f14/f5f7fa?text=Aleix+Bosch'"
+                    >
+                </div>
+            </div>
         </div>
     `;
-    
-    // Iniciar animación de typing
+
     initTypingAnimation();
+}
 }
 
 function initTypingAnimation() {
