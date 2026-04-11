@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
         renderStats();
         renderAbout();
         renderExperience();
+        renderAnalysis();
         renderContact();
         renderFooter();
 
@@ -423,7 +424,114 @@ function renderExperience() {
         </div>
     `;
 }
+// ====================================
+// ANALYSIS SECTION
+// ====================================
+function renderAnalysis() {
+    const analysisContent = document.getElementById('analysis-content');
+    if (!analysisContent || !CONFIG.analysis || CONFIG.analysis.length === 0) return;
 
+    analysisContent.innerHTML = `
+        <div class="analysis-grid">
+            ${CONFIG.analysis.map((item, index) => `
+                <article
+                    class="analysis-card"
+                    data-id="${item.id}"
+                    data-aos="fade-up"
+                    data-aos-delay="${index * 100}"
+                    tabindex="0"
+                    role="button"
+                    aria-label="Abrir análisis: ${item.title}"
+                >
+                    <div class="analysis-card-top">
+                        <span class="analysis-category">${item.category}</span>
+                        <span class="analysis-status">${item.status}</span>
+                    </div>
+
+                    <h3 class="analysis-title">${item.title}</h3>
+                    <p class="analysis-excerpt">${item.excerpt}</p>
+                    <p class="analysis-thesis">${item.thesis}</p>
+
+                    <div class="analysis-tags">
+                        ${item.tags.map(tag => `
+                            <span class="analysis-tag">${tag}</span>
+                        `).join('')}
+                    </div>
+
+                    <button class="analysis-open-btn" type="button">
+                        Ver análisis
+                    </button>
+                </article>
+            `).join('')}
+        </div>
+    `;
+
+    bindAnalysisCards();
+}
+
+function bindAnalysisCards() {
+    const cards = document.querySelectorAll('.analysis-card');
+
+    cards.forEach(card => {
+        card.addEventListener('click', () => {
+            const id = card.dataset.id;
+            openAnalysisModal(id);
+        });
+
+        card.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                const id = card.dataset.id;
+                openAnalysisModal(id);
+            }
+        });
+    });
+}
+
+function openAnalysisModal(id) {
+    const modal = document.getElementById('project-modal');
+    const modalBody = document.getElementById('modal-body');
+    if (!modal || !modalBody || !CONFIG.analysis) return;
+
+    const item = CONFIG.analysis.find(entry => entry.id === id);
+    if (!item) return;
+
+    modalBody.innerHTML = `
+        <article class="analysis-modal-content">
+            <div class="analysis-modal-head">
+                <span class="analysis-category">${item.category}</span>
+                <span class="analysis-status">${item.status}</span>
+            </div>
+
+            <h2 class="analysis-modal-title">${item.detailTitle}</h2>
+            <p class="analysis-modal-thesis">${item.thesis}</p>
+
+            <div class="analysis-modal-section">
+                <h3>Desarrollo</h3>
+                ${item.detailText.map(paragraph => `<p>${paragraph}</p>`).join('')}
+            </div>
+
+            <div class="analysis-modal-section">
+                <h3>Riesgos / puntos a vigilar</h3>
+                <ul class="analysis-risk-list">
+                    ${item.risks.map(risk => `<li>${risk}</li>`).join('')}
+                </ul>
+            </div>
+
+            <div class="analysis-modal-section">
+                <h3>Conclusión</h3>
+                <p>${item.conclusion}</p>
+            </div>
+
+            <div class="analysis-tags analysis-tags-large">
+                ${item.tags.map(tag => `<span class="analysis-tag">${tag}</span>`).join('')}
+            </div>
+        </article>
+    `;
+
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+}
 // ====================================
 // CONTACT SECTION
 // ====================================
