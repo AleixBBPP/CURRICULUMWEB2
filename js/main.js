@@ -522,13 +522,15 @@ function openAnalysisModal(id) {
 
     modalBody.innerHTML = `
         <article class="analysis-modal-content">
-            <div class="analysis-modal-head">
-                <span class="analysis-category">${item.category}</span>
-                <span class="analysis-status">${item.status}</span>
-            </div>
+            <div class="analysis-modal-hero">
+                <div class="analysis-modal-hero-top">
+                    <span class="analysis-category">${item.category}</span>
+                    <span class="analysis-status">${item.status}</span>
+                </div>
 
-            <h2 class="analysis-modal-title">${item.detailTitle}</h2>
-            <p class="analysis-modal-thesis">${item.thesis}</p>
+                <h2 class="analysis-modal-title">${item.detailTitle}</h2>
+                <p class="analysis-modal-thesis">${item.thesis}</p>
+            </div>
 
             <div class="analysis-summary-grid">
                 <div class="analysis-summary-card">
@@ -549,27 +551,35 @@ function openAnalysisModal(id) {
                 </div>
             </div>
 
-            <div class="analysis-modal-section">
-                <h3>Idea central</h3>
-                ${item.detailText.map(paragraph => `<p>${paragraph}</p>`).join('')}
+            <div class="analysis-modal-block">
+                <div class="analysis-modal-section">
+                    <h3>Idea central</h3>
+                    ${item.detailText.map(paragraph => `<p>${paragraph}</p>`).join('')}
+                </div>
             </div>
 
-            <div class="analysis-modal-section">
-                <h3>Catalizadores / qué vigilo</h3>
-                <ul class="analysis-risk-list">
-                    ${item.catalysts.map(point => `<li>${point}</li>`).join('')}
-                </ul>
+            <div class="analysis-modal-dual">
+                <div class="analysis-modal-block">
+                    <div class="analysis-modal-section">
+                        <h3>Catalizadores / qué vigilo</h3>
+                        <ul class="analysis-risk-list">
+                            ${item.catalysts.map(point => `<li>${point}</li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="analysis-modal-block">
+                    <div class="analysis-modal-section">
+                        <h3>Riesgos / puntos a vigilar</h3>
+                        <ul class="analysis-risk-list">
+                            ${item.risks.map(risk => `<li>${risk}</li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
             </div>
 
-            <div class="analysis-modal-section">
-                <h3>Riesgos / puntos a vigilar</h3>
-                <ul class="analysis-risk-list">
-                    ${item.risks.map(risk => `<li>${risk}</li>`).join('')}
-                </ul>
-            </div>
-
-            <div class="analysis-modal-section">
-                <h3>Conclusión</h3>
+            <div class="analysis-conclusion-box">
+                <span class="analysis-conclusion-label">Conclusión</span>
                 <p>${item.conclusion}</p>
             </div>
 
