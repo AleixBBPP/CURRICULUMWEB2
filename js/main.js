@@ -1,5 +1,5 @@
 // ====================================
-// MAIN.JS - LANDING PAGE
+// MAIN.JS - PORTFOLIO LANDING PAGE
 // ====================================
 
 // ====================================
@@ -7,13 +7,11 @@
 // ====================================
 document.addEventListener('DOMContentLoaded', () => {
     try {
-        // Ocultar loader
         setTimeout(() => {
             const loader = document.getElementById('loader');
             if (loader) loader.classList.add('hidden');
         }, 500);
 
-        // Inicializar AOS (animaciones)
         if (typeof AOS !== 'undefined') {
             AOS.init({
                 duration: 800,
@@ -23,14 +21,13 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // Inicializar componentes
         initSmoothScroll();
         initNavbar();
         initThemeToggle();
         initScrollProgress();
         initBackToTop();
+        initProjectModal();
 
-        // Renderizar contenido
         renderHome();
         renderStats();
         renderAbout();
@@ -49,36 +46,60 @@ document.addEventListener('DOMContentLoaded', () => {
 // SMOOTH SCROLL Y NAVEGACIÓN
 // ====================================
 function initSmoothScroll() {
-    // Manejar clicks en nav links
     document.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
+
             const targetId = link.getAttribute('href');
             const targetSection = document.querySelector(targetId);
-            
+
             if (targetSection) {
-                targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                
-                // Cerrar menú móvil si está abierto
-                document.getElementById('menu-toggle').classList.remove('active');
-                document.getElementById('nav-menu').classList.remove('active');
+                targetSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+
+                const menuToggle = document.getElementById('menu-toggle');
+                const navMenu = document.getElementById('nav-menu');
+
+                if (menuToggle) {
+                    menuToggle.classList.remove('active');
+                    menuToggle.setAttribute('aria-expanded', 'false');
+                }
+
+                if (navMenu) {
+                    navMenu.classList.remove('active');
+                }
             }
         });
     });
-    
-    // Actualizar link activo al hacer scroll
+
+    const logo = document.querySelector('.logo');
+    if (logo) {
+        logo.addEventListener('click', (e) => {
+            e.preventDefault();
+            const home = document.querySelector('#home');
+            if (home) {
+                home.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    }
+
     window.addEventListener('scroll', updateActiveNavOnScroll);
 }
 
 function updateActiveNavOnScroll() {
     const sections = document.querySelectorAll('.section');
     const scrollPos = window.scrollY + 150;
-    
+
     sections.forEach(section => {
         const top = section.offsetTop;
         const height = section.offsetHeight;
         const id = section.getAttribute('id');
-        
+
         if (scrollPos >= top && scrollPos < top + height) {
             document.querySelectorAll('.nav-link').forEach(link => {
                 link.classList.remove('active');
@@ -97,8 +118,9 @@ function initNavbar() {
     const navbar = document.getElementById('navbar');
     const menuToggle = document.getElementById('menu-toggle');
     const navMenu = document.getElementById('nav-menu');
-    
-    // Scroll effect
+
+    if (!navbar) return;
+
     window.addEventListener('scroll', () => {
         if (window.scrollY > 50) {
             navbar.classList.add('scrolled');
@@ -106,12 +128,16 @@ function initNavbar() {
             navbar.classList.remove('scrolled');
         }
     });
-    
-    // Mobile menu toggle
-    menuToggle.addEventListener('click', () => {
-        menuToggle.classList.toggle('active');
-        navMenu.classList.toggle('active');
-    });
+
+    if (menuToggle && navMenu) {
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            navMenu.classList.toggle('active');
+
+            const expanded = menuToggle.classList.contains('active');
+            menuToggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+        });
+    }
 }
 
 // ====================================
@@ -119,21 +145,36 @@ function initNavbar() {
 // ====================================
 function initThemeToggle() {
     const themeToggle = document.getElementById('theme-toggle');
+    if (!themeToggle) return;
+
     const themeIcon = themeToggle.querySelector('.theme-icon');
-    
-    // Cargar tema guardado
-    const savedTheme = localStorage.getItem('theme') || 'dark';
+    let savedTheme = 'dark';
+
+    try {
+        savedTheme = localStorage.getItem('theme') || 'dark';
+    } catch (e) {
+        savedTheme = 'dark';
+    }
+
     document.documentElement.setAttribute('data-theme', savedTheme);
-    themeIcon.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
-    
-    // Toggle theme
+
+    if (themeIcon) {
+        themeIcon.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+    }
+
     themeToggle.addEventListener('click', () => {
-        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
         const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        
+
         document.documentElement.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-        themeIcon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+
+        try {
+            localStorage.setItem('theme', newTheme);
+        } catch (e) {}
+
+        if (themeIcon) {
+            themeIcon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+        }
     });
 }
 
@@ -142,6 +183,7 @@ function initThemeToggle() {
 // ====================================
 function renderHome() {
     const heroContent = document.getElementById('hero-content');
+    if (!heroContent || !window.CONFIG) return;
 
     heroContent.innerHTML = `
         <div class="hero-shell">
@@ -161,7 +203,9 @@ function renderHome() {
 
                 <div class="hero-cta">
                     <a href="#contact" class="btn btn-primary">Hablemos</a>
-                    <a href="${CONFIG.personal.cvUrl}" class="btn btn-secondary" ${CONFIG.personal.cvUrl !== '#' ? 'download' : ''}>Descargar CV</a>
+                    <a href="${CONFIG.personal.cvUrl}" class="btn btn-secondary" ${CONFIG.personal.cvUrl !== '#' ? 'download' : ''}>
+                        Descargar CV
+                    </a>
                 </div>
             </div>
 
@@ -179,45 +223,97 @@ function renderHome() {
 
     initTypingAnimation();
 }
-}
 
 function initTypingAnimation() {
     const typingElement = document.querySelector('.typing-text');
-    if (!typingElement) return;
-    
+    if (!typingElement || !CONFIG.personal.roles || CONFIG.personal.roles.length === 0) return;
+
     const roles = CONFIG.personal.roles;
     let roleIndex = 0;
     let charIndex = 0;
     let isDeleting = false;
-    
+
     function type() {
         const currentRole = roles[roleIndex];
-        
+
         if (!isDeleting) {
             typingElement.textContent = currentRole.substring(0, charIndex + 1);
             charIndex++;
-            
+
             if (charIndex === currentRole.length) {
                 isDeleting = true;
-                setTimeout(type, 2000);
+                setTimeout(type, 1800);
                 return;
             }
         } else {
             typingElement.textContent = currentRole.substring(0, charIndex - 1);
             charIndex--;
-            
+
             if (charIndex === 0) {
                 isDeleting = false;
                 roleIndex = (roleIndex + 1) % roles.length;
-                setTimeout(type, 500);
+                setTimeout(type, 400);
                 return;
             }
         }
-        
-        setTimeout(type, isDeleting ? 50 : 100);
+
+        setTimeout(type, isDeleting ? 50 : 90);
     }
-    
+
     type();
+}
+
+// ====================================
+// STATS SECTION
+// ====================================
+function renderStats() {
+    const statsGrid = document.getElementById('stats-grid');
+    if (!statsGrid || !CONFIG.stats || CONFIG.stats.length === 0) return;
+
+    statsGrid.innerHTML = CONFIG.stats.map((stat, index) => `
+        <div class="stat-card" data-aos="fade-up" data-aos-delay="${index * 100}">
+            <span class="stat-icon">${stat.icon}</span>
+            <span class="stat-number" data-target="${stat.number}">${stat.suffix}</span>
+            <span class="stat-label">${stat.label}</span>
+        </div>
+    `).join('');
+
+    animateStats();
+}
+
+function animateStats() {
+    const statsGrid = document.getElementById('stats-grid');
+    if (!statsGrid) return;
+
+    const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const statNumbers = entry.target.querySelectorAll('.stat-number');
+
+                statNumbers.forEach(statNumber => {
+                    const target = parseInt(statNumber.dataset.target, 10);
+                    const suffix = statNumber.textContent.replace(/[0-9]/g, '');
+                    let current = 0;
+                    const increment = Math.max(target / 50, 1);
+
+                    const timer = setInterval(() => {
+                        current += increment;
+
+                        if (current >= target) {
+                            statNumber.textContent = target + suffix;
+                            clearInterval(timer);
+                        } else {
+                            statNumber.textContent = Math.floor(current) + suffix;
+                        }
+                    }, 30);
+                });
+
+                obs.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.35 });
+
+    observer.observe(statsGrid);
 }
 
 // ====================================
@@ -225,30 +321,36 @@ function initTypingAnimation() {
 // ====================================
 function renderAbout() {
     const aboutContent = document.getElementById('about-content');
-    
-    const bioHTML = CONFIG.about.bio.map(paragraph => 
-        `<p>${paragraph}</p>`
-    ).join('');
-    
+    if (!aboutContent || !CONFIG.about) return;
+
+    const bioHTML = CONFIG.about.bio.map(paragraph => `<p>${paragraph}</p>`).join('');
+
     aboutContent.innerHTML = `
         <div class="about-grid" data-aos="fade-up">
             <div class="about-image">
-                <img src="${CONFIG.about.image}" alt="${CONFIG.personal.name}" onerror="this.src='https://via.placeholder.com/400x500'">
+                <img
+                    src="${CONFIG.about.image}"
+                    alt="${CONFIG.personal.name}"
+                    onerror="this.src='https://placehold.co/520x640/121821/f5f7fa?text=Sobre+Mi'"
+                >
             </div>
+
             <div class="about-text">
                 <h3>Conoce más sobre mí</h3>
                 ${bioHTML}
             </div>
         </div>
-        
+
         <div class="skills-section">
-            <h3 class="section-title" data-aos="fade-up">Habilidades y Competencias</h3>
+            <h3 class="section-title" data-aos="fade-up">Habilidades y competencias</h3>
             ${renderSkillsCategories()}
         </div>
     `;
 }
 
 function renderSkillsCategories() {
+    if (!CONFIG.skills) return '';
+
     return `
         <div class="skills-categories-grid" data-aos="fade-up" data-aos-delay="100">
             ${Object.entries(CONFIG.skills).map(([category, skills]) => `
@@ -273,27 +375,31 @@ function renderSkillsCategories() {
 // ====================================
 function renderExperience() {
     const experienceContent = document.getElementById('experience-content');
-    
+    if (!experienceContent) return;
+
     if (!CONFIG.experience || CONFIG.experience.length === 0) {
         experienceContent.innerHTML = '<p>No hay experiencia disponible.</p>';
         return;
     }
-    
+
     experienceContent.innerHTML = `
         <div class="experience-timeline">
             ${CONFIG.experience.map((exp, index) => `
                 <div class="experience-item" data-aos="fade-up" data-aos-delay="${index * 100}">
                     <div class="experience-icon">${exp.icon}</div>
+
                     <div class="experience-content">
                         <div class="experience-header">
                             <h3 class="experience-title">${exp.title}</h3>
                             <span class="experience-period">${exp.period}</span>
                         </div>
+
                         <p class="experience-company">
                             ${exp.company}${exp.location ? ` • ${exp.location}` : ''}
                         </p>
+
                         <p class="experience-description">${exp.description}</p>
-                        
+
                         ${exp.achievements && exp.achievements.length > 0 ? `
                             <ul class="experience-achievements">
                                 ${exp.achievements.map(achievement => `
@@ -301,7 +407,7 @@ function renderExperience() {
                                 `).join('')}
                             </ul>
                         ` : ''}
-                        
+
                         ${exp.technologies && exp.technologies.length > 0 ? `
                             <div class="experience-tags">
                                 ${exp.technologies.map(tech => `
@@ -321,37 +427,44 @@ function renderExperience() {
 // ====================================
 function renderContact() {
     const contactContent = document.getElementById('contact-content');
-    
+    if (!contactContent) return;
+
     contactContent.innerHTML = `
         <div class="contact-grid">
-            <form class="contact-form" id="contact-form" action="https://formsubmit.co/${CONFIG.personal.email}" method="POST" data-aos="fade-right">
+            <form
+                class="contact-form"
+                id="contact-form"
+                action="https://formsubmit.co/${CONFIG.personal.email}"
+                method="POST"
+                data-aos="fade-right"
+            >
                 <input type="hidden" name="_subject" value="Nuevo mensaje desde Portfolio">
                 <input type="hidden" name="_captcha" value="false">
                 <input type="hidden" name="_next" value="${window.location.href}#contact">
-                
+
                 <div class="form-group">
                     <label for="name">Nombre *</label>
                     <input type="text" id="name" name="name" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="email">Email *</label>
                     <input type="email" id="email" name="email" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="subject">Asunto</label>
                     <input type="text" id="subject" name="subject">
                 </div>
-                
+
                 <div class="form-group">
                     <label for="message">Mensaje *</label>
                     <textarea id="message" name="message" rows="5" required></textarea>
                 </div>
-                
-                <button type="submit" class="btn btn-submit">Enviar Mensaje</button>
+
+                <button type="submit" class="btn btn-submit">Enviar mensaje</button>
             </form>
-            
+
             <div class="contact-info" data-aos="fade-left">
                 <div class="contact-info-item">
                     <span class="contact-icon">📧</span>
@@ -360,7 +473,7 @@ function renderContact() {
                         <a href="mailto:${CONFIG.personal.email}">${CONFIG.personal.email}</a>
                     </div>
                 </div>
-                
+
                 <div class="contact-info-item">
                     <span class="contact-icon">📱</span>
                     <div class="contact-details">
@@ -368,7 +481,7 @@ function renderContact() {
                         <a href="tel:${CONFIG.personal.phone}">${CONFIG.personal.phone}</a>
                     </div>
                 </div>
-                
+
                 <div class="contact-info-item">
                     <span class="contact-icon">📍</span>
                     <div class="contact-details">
@@ -376,15 +489,17 @@ function renderContact() {
                         <p>${CONFIG.personal.location}</p>
                     </div>
                 </div>
-                
+
                 <div class="contact-social">
                     <h4>Sígueme</h4>
                     <div class="social-links">
-                        ${Object.entries(CONFIG.social).filter(([k, v]) => v).map(([platform, url]) => `
-                            <a href="${url}" target="_blank" class="social-link" title="${platform}">
-                                ${getSocialIcon(platform)}
-                            </a>
-                        `).join('')}
+                        ${Object.entries(CONFIG.social)
+                            .filter(([_, value]) => value)
+                            .map(([platform, url]) => `
+                                <a href="${url}" target="_blank" rel="noopener noreferrer" class="social-link" title="${platform}">
+                                    ${getSocialIcon(platform)}
+                                </a>
+                            `).join('')}
                     </div>
                 </div>
             </div>
@@ -407,134 +522,111 @@ function getSocialIcon(platform) {
 // ====================================
 function renderFooter() {
     const footer = document.getElementById('footer');
+    if (!footer) return;
+
     const currentYear = new Date().getFullYear();
-    
+
     footer.innerHTML = `
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
                     <h4>${CONFIG.personal.name}</h4>
                     <p>${CONFIG.personal.title}</p>
-                    <p style="margin-top: var(--space-sm); color: var(--color-text-secondary); font-size: 0.9rem;">
+                    <p style="margin-top: 0.5rem; color: var(--color-text-secondary); font-size: 0.95rem;">
                         ${CONFIG.personal.location}
                     </p>
                 </div>
-                
+
                 <div class="footer-section">
                     <h4>Navegación</h4>
                     <ul class="footer-links">
                         <li><a href="#home">Inicio</a></li>
-                        <li><a href="#about">Sobre Mí</a></li>
+                        <li><a href="#about">Sobre mí</a></li>
                         <li><a href="#experience">Experiencia</a></li>
                         <li><a href="#contact">Contacto</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="footer-section">
-                    <h4>Contacto Rápido</h4>
+                    <h4>Contacto rápido</h4>
                     <ul class="footer-links">
                         <li><a href="mailto:${CONFIG.personal.email}">${CONFIG.personal.email}</a></li>
                         <li><a href="tel:${CONFIG.personal.phone}">${CONFIG.personal.phone}</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="footer-section">
                     <h4>Sígueme</h4>
                     <div class="social-links">
-                        ${Object.entries(CONFIG.social).filter(([k, v]) => v).map(([platform, url]) => `
-                            <a href="${url}" target="_blank" rel="noopener noreferrer" class="social-link" title="${platform}">
-                                ${getSocialIcon(platform)}
-                            </a>
-                        `).join('')}
+                        ${Object.entries(CONFIG.social)
+                            .filter(([_, value]) => value)
+                            .map(([platform, url]) => `
+                                <a href="${url}" target="_blank" rel="noopener noreferrer" class="social-link" title="${platform}">
+                                    ${getSocialIcon(platform)}
+                                </a>
+                            `).join('')}
                     </div>
                 </div>
             </div>
-            
+
             <div class="footer-bottom">
                 <p>&copy; ${currentYear} ${CONFIG.personal.name}. Todos los derechos reservados.</p>
-                <p>Diseñado y desarrollado con ❤️</p>
+                <p>Diseñado y desarrollado con intención</p>
             </div>
         </div>
     `;
 }
+
+// ====================================
+// PROJECT MODAL
+// ====================================
+function initProjectModal() {
+    const modal = document.getElementById('project-modal');
+    const closeBtn = document.getElementById('modal-close');
+
+    if (!modal || !closeBtn) return;
+
+    closeBtn.addEventListener('click', () => {
+        modal.classList.remove('open');
+        modal.setAttribute('aria-hidden', 'true');
+    });
+
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.classList.remove('open');
+            modal.setAttribute('aria-hidden', 'true');
+        }
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            modal.classList.remove('open');
+            modal.setAttribute('aria-hidden', 'true');
+        }
+    });
+}
+
 // ====================================
 // SCROLL PROGRESS BAR
 // ====================================
 function initScrollProgress() {
     const progressBar = document.getElementById('scroll-progress');
-    
+    if (!progressBar) return;
+
     window.addEventListener('scroll', () => {
         const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const scrolled = (window.scrollY / windowHeight) * 100;
+        const scrolled = windowHeight > 0 ? (window.scrollY / windowHeight) * 100 : 0;
         progressBar.style.width = scrolled + '%';
     });
 }
-
-// Añadir al DOMContentLoaded
-document.addEventListener('DOMContentLoaded', () => {
-    // ... código existente ...
-    initScrollProgress(); // ← AÑADE ESTA LÍNEA
-});
-// ====================================
-// STATS SECTION
-// ====================================
-function renderStats() {
-    const statsGrid = document.getElementById('stats-grid');
-    
-    if (!CONFIG.stats || CONFIG.stats.length === 0) return;
-    
-    statsGrid.innerHTML = CONFIG.stats.map((stat, index) => `
-        <div class="stat-card" data-aos="fade-up" data-aos-delay="${index * 100}">
-            <span class="stat-icon">${stat.icon}</span>
-            <span class="stat-number" data-target="${stat.number}">${stat.suffix}</span>
-            <span class="stat-label">${stat.label}</span>
-        </div>
-    `).join('');
-    
-    // Animación de conteo
-    animateStats();
-}
-
-function animateStats() {
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const statNumbers = entry.target.querySelectorAll('.stat-number');
-                statNumbers.forEach(statNumber => {
-                    const target = parseInt(statNumber.dataset.target);
-                    const suffix = statNumber.textContent.replace(/[0-9]/g, '');
-                    let current = 0;
-                    const increment = target / 50;
-                    const timer = setInterval(() => {
-                        current += increment;
-                        if (current >= target) {
-                            statNumber.textContent = target + suffix;
-                            clearInterval(timer);
-                        } else {
-                            statNumber.textContent = Math.floor(current) + suffix;
-                        }
-                    }, 30);
-                });
-                observer.unobserve(entry.target);
-            }
-        });
-    });
-    
-    observer.observe(document.getElementById('stats-grid'));
-}
-
-// Añadir al DOMContentLoaded
-document.addEventListener('DOMContentLoaded', () => {
-    // ... código existente ...
-    renderStats(); // ← AÑADIR
-});
 
 // ====================================
 // BACK TO TOP BUTTON
 // ====================================
 function initBackToTop() {
     const backToTopBtn = document.getElementById('back-to-top');
-    
+    if (!backToTopBtn) return;
+
     window.addEventListener('scroll', () => {
         if (window.scrollY > 300) {
             backToTopBtn.classList.add('visible');
@@ -542,7 +634,7 @@ function initBackToTop() {
             backToTopBtn.classList.remove('visible');
         }
     });
-    
+
     backToTopBtn.addEventListener('click', () => {
         window.scrollTo({
             top: 0,
@@ -550,9 +642,3 @@ function initBackToTop() {
         });
     });
 }
-
-// Añadir al DOMContentLoaded
-document.addEventListener('DOMContentLoaded', () => {
-    // ... código existente ...
-    initBackToTop(); // ← AÑADIR
-});
