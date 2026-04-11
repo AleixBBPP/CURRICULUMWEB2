@@ -1,188 +1,49 @@
-        // ====================================
-// MAIN.JS - PORTFOLIO LANDING PAGE
-// ====================================
-
-// ====================================
-// INICIALIZACIÓN
-// ====================================
 let currentLang = 'es';
+
 document.addEventListener('DOMContentLoaded', () => {
-    try {
-        setTimeout(() => {
-            const loader = document.getElementById('loader');
-            if (loader) loader.classList.add('hidden');
-        }, 500);
+    initThemeToggle();
+    initLanguageToggle();
+    initSmoothScroll();
+    initNavbar();
+    initScrollProgress();
+    initBackToTop();
+    initProjectModal();
 
-        if (typeof AOS !== 'undefined') {
-            AOS.init({
-                duration: 800,
-                easing: 'ease-in-out',
-                once: true,
-                offset: 100
-            });
-        }
+    updateStaticTexts();
+    rerenderAllContent();
 
-        initSmoothScroll();
-        initNavbar();
-        initThemeToggle();
-        initLanguageToggle();
-        initScrollProgress();
-        initBackToTop();
-        initProjectModal();
-
-        updateStaticTexts();
-
-        renderHome();
-        renderStats();
-        renderAbout();
-        renderExperience();
-        renderAnalysis();
-        renderContact();
-        renderFooter();
-    } catch (error) {
-        console.error('Error al inicializar la web:', error);
-        const loader = document.getElementById('loader');
-        if (loader) loader.classList.add('hidden');
+    if (window.AOS) {
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 50
+        });
     }
 });
 
 // ====================================
-// SMOOTH SCROLL Y NAVEGACIÓN
+// HELPERS
 // ====================================
-function initSmoothScroll() {
-    document.querySelectorAll('.nav-link').forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-
-            const targetId = link.getAttribute('href');
-            const targetSection = document.querySelector(targetId);
-
-            if (targetSection) {
-                targetSection.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-
-                const menuToggle = document.getElementById('menu-toggle');
-                const navMenu = document.getElementById('nav-menu');
-
-                if (menuToggle) {
-                    menuToggle.classList.remove('active');
-                    menuToggle.setAttribute('aria-expanded', 'false');
-                }
-
-                if (navMenu) {
-                    navMenu.classList.remove('active');
-                }
-            }
-        });
-    });
-
-    const logo = document.querySelector('.logo');
-    if (logo) {
-        logo.addEventListener('click', (e) => {
-            e.preventDefault();
-            const home = document.querySelector('#home');
-            if (home) {
-                home.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        });
-    }
-
-    window.addEventListener('scroll', updateActiveNavOnScroll);
+function t(obj) {
+    if (!obj) return '';
+    if (typeof obj === 'string') return obj;
+    return obj[currentLang] ?? obj.es ?? '';
 }
 
-function updateActiveNavOnScroll() {
-    const sections = document.querySelectorAll('.section');
-    const scrollPos = window.scrollY + 150;
+function rerenderAllContent() {
+    renderHome();
+    renderStats();
+    renderAbout();
+    renderExperience();
+    renderAnalysis();
+    renderContact();
+    renderFooter();
 
-    sections.forEach(section => {
-        const top = section.offsetTop;
-        const height = section.offsetHeight;
-        const id = section.getAttribute('id');
-
-        if (scrollPos >= top && scrollPos < top + height) {
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === `#${id}`) {
-                    link.classList.add('active');
-                }
-            });
-        }
-    });
-}
-
-// ====================================
-// NAVBAR
-// ====================================
-function initNavbar() {
-    const navbar = document.getElementById('navbar');
-    const menuToggle = document.getElementById('menu-toggle');
-    const navMenu = document.getElementById('nav-menu');
-
-    if (!navbar) return;
-
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-    });
-
-    if (menuToggle && navMenu) {
-        menuToggle.addEventListener('click', () => {
-            menuToggle.classList.toggle('active');
-            navMenu.classList.toggle('active');
-
-            const expanded = menuToggle.classList.contains('active');
-            menuToggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
-        });
+    if (window.AOS) {
+        AOS.refresh();
     }
 }
 
-// ====================================
-// THEME TOGGLE
-// ====================================
-function initThemeToggle() {
-    const themeToggle = document.getElementById('theme-toggle');
-    if (!themeToggle) return;
-
-    const themeIcon = themeToggle.querySelector('.theme-icon');
-    let savedTheme = 'dark';
-
-    try {
-        savedTheme = localStorage.getItem('theme') || 'dark';
-    } catch (e) {
-        savedTheme = 'dark';
-    }
-
-    document.documentElement.setAttribute('data-theme', savedTheme);
-
-    if (themeIcon) {
-    themeIcon.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
-    themeToggle.setAttribute('aria-label', savedTheme === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro');
-    }
-
-    themeToggle.addEventListener('click', () => {
-        const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-
-        document.documentElement.setAttribute('data-theme', newTheme);
-
-        try {
-            localStorage.setItem('theme', newTheme);
-        } catch (e) {}
-
-        if (themeIcon) {
-        themeIcon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
-        themeToggle.setAttribute('aria-label', newTheme === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro');
-        }
-    });
-}
 // ====================================
 // LANGUAGE TOGGLE
 // ====================================
@@ -213,85 +74,184 @@ function initLanguageToggle() {
 
 function updateLangToggleUI() {
     document.querySelectorAll('[data-lang-label]').forEach(el => {
-        el.classList.remove('active');
-        if (el.dataset.langLabel === currentLang) {
-            el.classList.add('active');
-        }
+        el.classList.toggle('active', el.dataset.langLabel === currentLang);
     });
 }
 
 function updateStaticTexts() {
-    const navCta = document.getElementById('nav-cta-text');
-    if (navCta) {
-        navCta.textContent = currentLang === 'es' ? 'Contrátame' : 'Hire me';
-    }
-
     const navLinks = document.querySelectorAll('.nav-link');
-    const labels = currentLang === 'es'
-        ? ['Inicio', 'Sobre mí', 'Experiencia', 'Análisis', 'Contacto']
-        : ['Home', 'About', 'Experience', 'Analysis', 'Contact'];
+    const navItems = [
+        CONFIG.ui.nav.home,
+        CONFIG.ui.nav.about,
+        CONFIG.ui.nav.experience,
+        CONFIG.ui.nav.analysis,
+        CONFIG.ui.nav.contact
+    ];
 
     navLinks.forEach((link, index) => {
-        if (labels[index]) link.textContent = labels[index];
+        if (navItems[index]) {
+            link.textContent = t(navItems[index]);
+        }
     });
+
+    const navCta = document.getElementById('nav-cta-text');
+    if (navCta) {
+        navCta.textContent = t(CONFIG.ui.nav.hire);
+    }
 
     const sectionTitles = document.querySelectorAll('.section-title');
-    const titles = currentLang === 'es'
-        ? ['Sobre mí', 'Experiencia profesional', 'Análisis', 'Contacto']
-        : ['About me', 'Professional experience', 'Analysis', 'Contact'];
+    const titles = [
+        CONFIG.ui.sections.about,
+        CONFIG.ui.sections.experience,
+        CONFIG.ui.sections.analysis,
+        CONFIG.ui.sections.contact
+    ];
 
     sectionTitles.forEach((title, index) => {
-        if (titles[index]) title.textContent = titles[index];
+        if (titles[index]) {
+            title.textContent = t(titles[index]);
+        }
     });
 }
 
-function rerenderAllContent() {
-    renderHome();
-    renderStats();
-    renderAbout();
-    renderExperience();
-    renderAnalysis();
-    renderContact();
-    renderFooter();
-}
 // ====================================
-// HOME SECTION
+// THEME TOGGLE
+// ====================================
+function initThemeToggle() {
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIcon = themeToggle?.querySelector('.theme-icon');
+    if (!themeToggle) return;
+
+    let currentTheme = 'dark';
+
+    try {
+        currentTheme = localStorage.getItem('theme') || 'dark';
+    } catch (e) {
+        currentTheme = 'dark';
+    }
+
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    updateThemeIcon(currentTheme, themeIcon);
+
+    themeToggle.addEventListener('click', () => {
+        currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', currentTheme);
+
+        try {
+            localStorage.setItem('theme', currentTheme);
+        } catch (e) {}
+
+        updateThemeIcon(currentTheme, themeIcon);
+    });
+}
+
+function updateThemeIcon(theme, iconEl) {
+    if (!iconEl) return;
+    iconEl.textContent = theme === 'dark' ? '🌙' : '☀️';
+}
+
+// ====================================
+// SMOOTH SCROLL
+// ====================================
+function initSmoothScroll() {
+    document.addEventListener('click', (e) => {
+        const anchor = e.target.closest('a[href^="#"]');
+        if (!anchor) return;
+
+        const targetId = anchor.getAttribute('href');
+        if (!targetId || targetId === '#') return;
+
+        const targetEl = document.querySelector(targetId);
+        if (!targetEl) return;
+
+        e.preventDefault();
+        targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+}
+
+// ====================================
+// NAVBAR
+// ====================================
+function initNavbar() {
+    const navbar = document.querySelector('.navbar');
+    if (!navbar) return;
+
+    const handleScroll = () => {
+        navbar.classList.toggle('scrolled', window.scrollY > 30);
+    };
+
+    handleScroll();
+    window.addEventListener('scroll', handleScroll);
+}
+
+// ====================================
+// SCROLL PROGRESS
+// ====================================
+function initScrollProgress() {
+    const progressBar = document.querySelector('.scroll-progress');
+    if (!progressBar) return;
+
+    const updateProgress = () => {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        progressBar.style.width = `${progress}%`;
+    };
+
+    updateProgress();
+    window.addEventListener('scroll', updateProgress);
+}
+
+// ====================================
+// BACK TO TOP
+// ====================================
+function initBackToTop() {
+    const backToTop = document.querySelector('.back-to-top');
+    if (!backToTop) return;
+
+    const toggleVisibility = () => {
+        backToTop.classList.toggle('visible', window.scrollY > 400);
+    };
+
+    toggleVisibility();
+    window.addEventListener('scroll', toggleVisibility);
+
+    backToTop.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+}
+
+// ====================================
+// HOME
 // ====================================
 function renderHome() {
-    const heroContent = document.getElementById('hero-content');
-    if (!heroContent || !window.CONFIG) return;
+    const homeContent = document.getElementById('home-content');
+    if (!homeContent) return;
 
-    heroContent.innerHTML = `
+    homeContent.innerHTML = `
         <div class="hero-shell">
-            <div class="hero-copy">
-                <span class="hero-kicker">ECONOMÍA · INVERSIÓN · ESTRATEGIA</span>
-
-                <h1 class="hero-greeting">
-                    Hola, soy <span class="highlight">${CONFIG.personal.name}</span>
-                </h1>
-
-                <h2 class="hero-title">
-                    <span class="typing-text"></span>
-                    <span class="cursor">|</span>
+            <div class="hero-text" data-aos="fade-right">
+                <span class="hero-kicker">${t(CONFIG.personal.title)}</span>
+                <h1 class="hero-title">${CONFIG.personal.name}</h1>
+                <h2 class="hero-subtitle">
+                    <span id="typing-text"></span>
                 </h2>
+                <p class="hero-description">${t(CONFIG.personal.tagline)}</p>
 
-                <p class="hero-tagline">${CONFIG.personal.tagline}</p>
-
-                <div class="hero-cta">
-                    <a href="#contact" class="btn btn-primary">Hablemos</a>
-                    <a href="${CONFIG.personal.cvUrl}" class="btn btn-secondary" ${CONFIG.personal.cvUrl !== '#' ? 'download' : ''}>
-                        Descargar CV
-                    </a>
+                <div class="hero-actions">
+                    <a href="#contact" class="btn btn-primary">${t(CONFIG.ui.nav.hire)}</a>
+                    <a href="${CONFIG.personal.cvUrl}" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">CV</a>
                 </div>
             </div>
 
-            <div class="hero-visual">
+            <div class="hero-visual" data-aos="fade-left">
                 <div class="hero-avatar-wrap">
                     <img
                         src="${CONFIG.personal.avatar}"
                         alt="${CONFIG.personal.name}"
-                        onerror="this.src='https://placehold.co/320x320/0b0f14/f5f7fa?text=Aleix+Bosch'"
-                    >
+                        class="hero-avatar"
+                        onerror="this.src='https://placehold.co/300x300'"
+                    />
                 </div>
             </div>
         </div>
@@ -301,216 +261,171 @@ function renderHome() {
 }
 
 function initTypingAnimation() {
-    const typingElement = document.querySelector('.typing-text');
-    if (!typingElement || !CONFIG.personal.roles || CONFIG.personal.roles.length === 0) return;
+    const typingText = document.getElementById('typing-text');
+    if (!typingText) return;
 
-    const roles = CONFIG.personal.roles;
+    const roles = CONFIG.personal.roles[currentLang];
     let roleIndex = 0;
     let charIndex = 0;
     let isDeleting = false;
 
     function type() {
         const currentRole = roles[roleIndex];
+        typingText.textContent = currentRole.substring(0, charIndex);
 
         if (!isDeleting) {
-            typingElement.textContent = currentRole.substring(0, charIndex + 1);
             charIndex++;
-
-            if (charIndex === currentRole.length) {
+            if (charIndex > currentRole.length) {
                 isDeleting = true;
-                setTimeout(type, 1800);
+                setTimeout(type, 1200);
                 return;
             }
         } else {
-            typingElement.textContent = currentRole.substring(0, charIndex - 1);
             charIndex--;
-
-            if (charIndex === 0) {
+            if (charIndex < 0) {
                 isDeleting = false;
                 roleIndex = (roleIndex + 1) % roles.length;
-                setTimeout(type, 400);
-                return;
+                charIndex = 0;
             }
         }
 
-        setTimeout(type, isDeleting ? 50 : 90);
+        const speed = isDeleting ? 45 : 85;
+        setTimeout(type, speed);
     }
 
     type();
 }
 
 // ====================================
-// STATS SECTION
+// STATS
 // ====================================
 function renderStats() {
-    const statsGrid = document.getElementById('stats-grid');
-    if (!statsGrid || !CONFIG.stats || CONFIG.stats.length === 0) return;
+    const statsContent = document.getElementById('stats-content');
+    if (!statsContent) return;
 
-    statsGrid.innerHTML = CONFIG.stats.map((stat, index) => `
-        <div class="stat-card" data-aos="fade-up" data-aos-delay="${index * 100}">
-            <span class="stat-icon">${stat.icon}</span>
-            <span class="stat-number" data-target="${stat.number}">${stat.suffix}</span>
-            <span class="stat-label">${stat.label}</span>
-        </div>
-    `).join('');
-
-    animateStats();
-}
-
-function animateStats() {
-    const statsGrid = document.getElementById('stats-grid');
-    if (!statsGrid) return;
-
-    const observer = new IntersectionObserver((entries, obs) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const statNumbers = entry.target.querySelectorAll('.stat-number');
-
-                statNumbers.forEach(statNumber => {
-                    const target = parseInt(statNumber.dataset.target, 10);
-                    const suffix = statNumber.textContent.replace(/[0-9]/g, '');
-                    let current = 0;
-                    const increment = Math.max(target / 50, 1);
-
-                    const timer = setInterval(() => {
-                        current += increment;
-
-                        if (current >= target) {
-                            statNumber.textContent = target + suffix;
-                            clearInterval(timer);
-                        } else {
-                            statNumber.textContent = Math.floor(current) + suffix;
-                        }
-                    }, 30);
-                });
-
-                obs.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.35 });
-
-    observer.observe(statsGrid);
-}
-
-// ====================================
-// ABOUT SECTION
-// ====================================
-function renderAbout() {
-    const aboutContent = document.getElementById('about-content');
-    if (!aboutContent || !CONFIG.about) return;
-
-    const bioHTML = CONFIG.about.bio.map(paragraph => `<p>${paragraph}</p>`).join('');
-
-    aboutContent.innerHTML = `
-        <div class="about-grid" data-aos="fade-up">
-            <div class="about-image">
-                <img
-                    src="${CONFIG.about.image}"
-                    alt="${CONFIG.personal.name}"
-                    onerror="this.src='https://placehold.co/520x640/121821/f5f7fa?text=Sobre+Mi'"
-                >
-            </div>
-
-            <div class="about-text">
-                <h3>Conoce más sobre mí</h3>
-                ${bioHTML}
-            </div>
-        </div>
-
-        <div class="skills-section">
-            <h3 class="section-title" data-aos="fade-up">Habilidades y competencias</h3>
-            ${renderSkillsCategories()}
-        </div>
-    `;
-}
-
-function renderSkillsCategories() {
-    if (!CONFIG.skills) return '';
-
-    return `
-        <div class="skills-categories-grid" data-aos="fade-up" data-aos-delay="100">
-            ${Object.entries(CONFIG.skills).map(([category, skills]) => `
-                <div class="skill-category-card">
-                    <h4 class="skill-category-title">${category}</h4>
-                    <ul class="skill-list">
-                        ${skills.map(skill => `
-                            <li class="skill-list-item">
-                                <span class="skill-icon">${skill.icon}</span>
-                                <span class="skill-name">${skill.name}</span>
-                            </li>
-                        `).join('')}
-                    </ul>
+    statsContent.innerHTML = `
+        <div class="stats-grid">
+            ${CONFIG.stats.map((stat, index) => `
+                <div class="stat-card" data-aos="fade-up" data-aos-delay="${index * 100}">
+                    <div class="stat-icon">${stat.icon}</div>
+                    <div class="stat-number">
+                        <span class="counter" data-target="${stat.number}">0</span>${stat.suffix}
+                    </div>
+                    <p class="stat-label">${t(stat.label)}</p>
                 </div>
             `).join('')}
         </div>
     `;
+
+    initCounters();
+}
+
+function initCounters() {
+    const counters = document.querySelectorAll('.counter');
+
+    const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+
+            const counter = entry.target;
+            const target = parseInt(counter.dataset.target, 10);
+            let current = 0;
+            const increment = Math.max(1, Math.ceil(target / 40));
+
+            const updateCounter = () => {
+                current += increment;
+                if (current >= target) {
+                    counter.textContent = target;
+                } else {
+                    counter.textContent = current;
+                    requestAnimationFrame(updateCounter);
+                }
+            };
+
+            updateCounter();
+            obs.unobserve(counter);
+        });
+    }, { threshold: 0.4 });
+
+    counters.forEach(counter => observer.observe(counter));
 }
 
 // ====================================
-// EXPERIENCE SECTION
+// ABOUT
+// ====================================
+function renderAbout() {
+    const aboutContent = document.getElementById('about-content');
+    if (!aboutContent) return;
+
+    const bioHTML = CONFIG.about.bio[currentLang]
+        .map(paragraph => `<p>${paragraph}</p>`)
+        .join('');
+
+    aboutContent.innerHTML = `
+        <div class="about-grid">
+            <div class="about-image" data-aos="fade-right">
+                <img
+                    src="${CONFIG.about.image}"
+                    alt="${CONFIG.personal.name}"
+                    onerror="this.src='https://placehold.co/500x600'"
+                />
+            </div>
+
+            <div class="about-text" data-aos="fade-left">
+                <div class="about-bio">
+                    ${bioHTML}
+                </div>
+
+                <div class="skills-categories-grid">
+                    ${CONFIG.about.skills.map(skill => `
+                        <div class="skill-category-card">
+                            <h3>${t(skill.category)}</h3>
+                            <ul>
+                                ${skill.items[currentLang].map(item => `<li>${item}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+// ====================================
+// EXPERIENCE
 // ====================================
 function renderExperience() {
     const experienceContent = document.getElementById('experience-content');
     if (!experienceContent) return;
 
-    if (!CONFIG.experience || CONFIG.experience.length === 0) {
-        experienceContent.innerHTML = '<p>No hay experiencia disponible.</p>';
-        return;
-    }
-
     experienceContent.innerHTML = `
         <div class="experience-timeline">
-            ${CONFIG.experience.map((exp, index) => `
-                <div class="experience-item" data-aos="fade-up" data-aos-delay="${index * 100}">
-                    <div class="experience-icon">${exp.icon}</div>
-
-                    <div class="experience-content">
-                        <div class="experience-header">
-                            <h3 class="experience-title">${exp.title}</h3>
-                            <span class="experience-period">${exp.period}</span>
+            ${CONFIG.experience.map((item, index) => `
+                <article class="experience-card" data-aos="fade-up" data-aos-delay="${index * 100}">
+                    <div class="experience-top">
+                        <div>
+                            <h3 class="experience-role">${t(item.role)}</h3>
+                            <p class="experience-company">${t(item.company)}</p>
                         </div>
-
-                        <p class="experience-company">
-                            ${exp.company}${exp.location ? ` • ${exp.location}` : ''}
-                        </p>
-
-                        <p class="experience-description">${exp.description}</p>
-
-                        ${exp.achievements && exp.achievements.length > 0 ? `
-                            <ul class="experience-achievements">
-                                ${exp.achievements.map(achievement => `
-                                    <li>${achievement}</li>
-                                `).join('')}
-                            </ul>
-                        ` : ''}
-
-                        ${exp.technologies && exp.technologies.length > 0 ? `
-                            <div class="experience-tags">
-                                ${exp.technologies.map(tech => `
-                                    <span class="experience-tag">${tech}</span>
-                                `).join('')}
-                            </div>
-                        ` : ''}
+                        <span class="experience-period">${t(item.period)}</span>
                     </div>
-                </div>
+                    <p class="experience-description">${t(item.description)}</p>
+                </article>
             `).join('')}
         </div>
     `;
 }
 
 // ====================================
-// ANALYSIS SECTION
+// ANALYSIS
 // ====================================
 function renderAnalysis() {
     const analysisContent = document.getElementById('analysis-content');
-    if (!analysisContent || !CONFIG.analysis || CONFIG.analysis.length === 0) return;
+    if (!analysisContent || !CONFIG.analysis?.length) return;
 
     analysisContent.innerHTML = `
         <div class="analysis-intro" data-aos="fade-up">
-            <p>
-                Una selección de ideas, marcos y seguimientos que resumen cómo analizo empresas,
-                sectores y contextos de mercado.
-            </p>
+            <p>${t(CONFIG.ui.analysis.intro)}</p>
         </div>
 
         <div class="analysis-grid">
@@ -522,41 +437,41 @@ function renderAnalysis() {
                     data-aos-delay="${index * 100}"
                     tabindex="0"
                     role="button"
-                    aria-label="Abrir análisis: ${item.title}"
+                    aria-label="${t(CONFIG.ui.analysis.openButton)}: ${t(item.title)}"
                 >
                     <div class="analysis-card-top">
-                        <span class="analysis-category">${item.category}</span>
-                        <span class="analysis-status">${item.status}</span>
+                        <span class="analysis-category">${t(item.category)}</span>
+                        <span class="analysis-status">${t(item.status)}</span>
                     </div>
 
-                    <h3 class="analysis-title">${item.title}</h3>
-                    <p class="analysis-excerpt">${item.excerpt}</p>
+                    <h3 class="analysis-title">${t(item.title)}</h3>
+                    <p class="analysis-excerpt">${t(item.excerpt)}</p>
 
                     <div class="analysis-metrics">
                         <div class="analysis-metric">
-                            <span class="analysis-metric-label">Tipo</span>
-                            <span class="analysis-metric-value">${item.type}</span>
+                            <span class="analysis-metric-label">${t(CONFIG.ui.analysis.labels.type)}</span>
+                            <span class="analysis-metric-value">${t(item.type)}</span>
                         </div>
                         <div class="analysis-metric">
-                            <span class="analysis-metric-label">Horizonte</span>
-                            <span class="analysis-metric-value">${item.horizon}</span>
+                            <span class="analysis-metric-label">${t(CONFIG.ui.analysis.labels.horizon)}</span>
+                            <span class="analysis-metric-value">${t(item.horizon)}</span>
                         </div>
                         <div class="analysis-metric">
-                            <span class="analysis-metric-label">Convicción</span>
-                            <span class="analysis-metric-value">${item.conviction}</span>
+                            <span class="analysis-metric-label">${t(CONFIG.ui.analysis.labels.conviction)}</span>
+                            <span class="analysis-metric-value">${t(item.conviction)}</span>
                         </div>
                     </div>
 
-                    <p class="analysis-thesis">${item.thesis}</p>
+                    <p class="analysis-thesis">${t(item.thesis)}</p>
 
                     <div class="analysis-tags">
-                        ${item.tags.map(tag => `
+                        ${item.tags[currentLang].map(tag => `
                             <span class="analysis-tag">${tag}</span>
                         `).join('')}
                     </div>
 
                     <button class="analysis-open-btn" type="button">
-                        Ver tesis completa
+                        ${t(CONFIG.ui.analysis.openButton)}
                     </button>
                 </article>
             `).join('')}
@@ -571,15 +486,13 @@ function bindAnalysisCards() {
 
     cards.forEach(card => {
         card.addEventListener('click', () => {
-            const id = card.dataset.id;
-            openAnalysisModal(id);
+            openAnalysisModal(card.dataset.id);
         });
 
         card.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
-                const id = card.dataset.id;
-                openAnalysisModal(id);
+                openAnalysisModal(card.dataset.id);
             }
         });
     });
@@ -588,7 +501,7 @@ function bindAnalysisCards() {
 function openAnalysisModal(id) {
     const modal = document.getElementById('project-modal');
     const modalBody = document.getElementById('modal-body');
-    if (!modal || !modalBody || !CONFIG.analysis) return;
+    if (!modal || !modalBody) return;
 
     const item = CONFIG.analysis.find(entry => entry.id === id);
     if (!item) return;
@@ -597,76 +510,78 @@ function openAnalysisModal(id) {
         <article class="analysis-modal-content">
             <div class="analysis-modal-hero">
                 <div class="analysis-modal-hero-top">
-                    <span class="analysis-category">${item.category}</span>
-                    <span class="analysis-status">${item.status}</span>
+                    <span class="analysis-category">${t(item.category)}</span>
+                    <span class="analysis-status">${t(item.status)}</span>
                 </div>
 
-                <h2 class="analysis-modal-title">${item.detailTitle}</h2>
-                <p class="analysis-modal-thesis">${item.thesis}</p>
+                <h2 class="analysis-modal-title">${t(item.detailTitle)}</h2>
+                <p class="analysis-modal-thesis">${t(item.thesis)}</p>
             </div>
 
             <div class="analysis-summary-grid">
                 <div class="analysis-summary-card">
-                    <span class="analysis-summary-label">Tipo de idea</span>
-                    <span class="analysis-summary-value">${item.type}</span>
+                    <span class="analysis-summary-label">${t(CONFIG.ui.analysis.labels.thesisType)}</span>
+                    <span class="analysis-summary-value">${t(item.type)}</span>
                 </div>
                 <div class="analysis-summary-card">
-                    <span class="analysis-summary-label">Horizonte</span>
-                    <span class="analysis-summary-value">${item.horizon}</span>
+                    <span class="analysis-summary-label">${t(CONFIG.ui.analysis.labels.horizon)}</span>
+                    <span class="analysis-summary-value">${t(item.horizon)}</span>
                 </div>
                 <div class="analysis-summary-card">
-                    <span class="analysis-summary-label">Convicción</span>
-                    <span class="analysis-summary-value">${item.conviction}</span>
+                    <span class="analysis-summary-label">${t(CONFIG.ui.analysis.labels.conviction)}</span>
+                    <span class="analysis-summary-value">${t(item.conviction)}</span>
                 </div>
                 <div class="analysis-summary-card">
-                    <span class="analysis-summary-label">Riesgo principal</span>
-                    <span class="analysis-summary-value">${item.primaryRisk}</span>
+                    <span class="analysis-summary-label">${t(CONFIG.ui.analysis.labels.primaryRisk)}</span>
+                    <span class="analysis-summary-value">${t(item.primaryRisk)}</span>
                 </div>
             </div>
 
             <div class="analysis-modal-block">
                 <div class="analysis-modal-section">
-                    <h3>Idea central</h3>
-                    ${item.detailText.map(paragraph => `<p>${paragraph}</p>`).join('')}
+                    <h3>${t(CONFIG.ui.analysis.labels.coreIdea)}</h3>
+                    ${item.detailText[currentLang].map(paragraph => `<p>${paragraph}</p>`).join('')}
                 </div>
             </div>
 
             <div class="analysis-modal-dual">
                 <div class="analysis-modal-block">
                     <div class="analysis-modal-section">
-                        <h3>Catalizadores / qué vigilo</h3>
+                        <h3>${t(CONFIG.ui.analysis.labels.catalysts)}</h3>
                         <ul class="analysis-risk-list">
-                            ${item.catalysts.map(point => `<li>${point}</li>`).join('')}
+                            ${item.catalysts[currentLang].map(point => `<li>${point}</li>`).join('')}
                         </ul>
                     </div>
                 </div>
 
                 <div class="analysis-modal-block">
                     <div class="analysis-modal-section">
-                        <h3>Riesgos / puntos a vigilar</h3>
+                        <h3>${t(CONFIG.ui.analysis.labels.risks)}</h3>
                         <ul class="analysis-risk-list">
-                            ${item.risks.map(risk => `<li>${risk}</li>`).join('')}
+                            ${item.risks[currentLang].map(risk => `<li>${risk}</li>`).join('')}
                         </ul>
                     </div>
                 </div>
             </div>
 
             <div class="analysis-conclusion-box">
-                <span class="analysis-conclusion-label">Conclusión</span>
-                <p>${item.conclusion}</p>
+                <span class="analysis-conclusion-label">${t(CONFIG.ui.analysis.labels.conclusion)}</span>
+                <p>${t(item.conclusion)}</p>
             </div>
 
             <div class="analysis-tags analysis-tags-large">
-                ${item.tags.map(tag => `<span class="analysis-tag">${tag}</span>`).join('')}
+                ${item.tags[currentLang].map(tag => `<span class="analysis-tag">${tag}</span>`).join('')}
             </div>
         </article>
     `;
 
     modal.classList.add('open');
     modal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('modal-open');
 }
+
 // ====================================
-// CONTACT SECTION
+// CONTACT
 // ====================================
 function renderContact() {
     const contactContent = document.getElementById('contact-content');
@@ -674,214 +589,94 @@ function renderContact() {
 
     contactContent.innerHTML = `
         <div class="contact-grid">
-            <form
-                class="contact-form"
-                id="contact-form"
-                action="https://formsubmit.co/${CONFIG.personal.email}"
-                method="POST"
-                data-aos="fade-right"
-            >
-                <input type="hidden" name="_subject" value="Nuevo mensaje desde Portfolio">
-                <input type="hidden" name="_captcha" value="false">
-                <input type="hidden" name="_next" value="${window.location.href}#contact">
+            <div class="contact-text" data-aos="fade-right">
+                <h3>${t(CONFIG.ui.contact.title)}</h3>
+                <p>${t(CONFIG.ui.contact.text)}</p>
 
-                <div class="form-group">
-                    <label for="name">Nombre *</label>
-                    <input type="text" id="name" name="name" required>
+                <div class="contact-info">
+                    <a href="mailto:${CONFIG.contact.email}" class="contact-item">${CONFIG.contact.email}</a>
+                    <a href="tel:${CONFIG.contact.phone}" class="contact-item">${CONFIG.contact.phone}</a>
                 </div>
 
-                <div class="form-group">
-                    <label for="email">Email *</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
+                <a href="mailto:${CONFIG.contact.email}" class="btn btn-primary">
+                    ${t(CONFIG.ui.contact.button)}
+                </a>
+            </div>
 
-                <div class="form-group">
-                    <label for="subject">Asunto</label>
-                    <input type="text" id="subject" name="subject">
-                </div>
-
-                <div class="form-group">
-                    <label for="message">Mensaje *</label>
-                    <textarea id="message" name="message" rows="5" required></textarea>
-                </div>
-
-                <button type="submit" class="btn btn-submit">Enviar mensaje</button>
-            </form>
-
-            <div class="contact-info" data-aos="fade-left">
-                <div class="contact-info-item">
-                    <span class="contact-icon">📧</span>
-                    <div class="contact-details">
-                        <h4>Email</h4>
-                        <a href="mailto:${CONFIG.personal.email}">${CONFIG.personal.email}</a>
-                    </div>
-                </div>
-
-                <div class="contact-info-item">
-                    <span class="contact-icon">📱</span>
-                    <div class="contact-details">
-                        <h4>Teléfono</h4>
-                        <a href="tel:${CONFIG.personal.phone}">${CONFIG.personal.phone}</a>
-                    </div>
-                </div>
-
-                <div class="contact-info-item">
-                    <span class="contact-icon">📍</span>
-                    <div class="contact-details">
-                        <h4>Ubicación</h4>
-                        <p>${CONFIG.personal.location}</p>
-                    </div>
-                </div>
-
-                <div class="contact-social">
-                    <h4>Sígueme</h4>
-                    <div class="social-links">
-                        ${Object.entries(CONFIG.social)
-                            .filter(([_, value]) => value)
-                            .map(([platform, url]) => `
-                                <a href="${url}" target="_blank" rel="noopener noreferrer" class="social-link" title="${platform}">
-                                    ${getSocialIcon(platform)}
-                                </a>
-                            `).join('')}
-                    </div>
-                </div>
+            <div class="contact-social" data-aos="fade-left">
+                ${CONFIG.social.map(item => `
+                    <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="social-card">
+                        <span class="social-icon">${item.icon}</span>
+                        <span class="social-name">${item.name}</span>
+                    </a>
+                `).join('')}
             </div>
         </div>
     `;
-}
-
-function getSocialIcon(platform) {
-    const icons = {
-        github: '⚡',
-        linkedin: '💼',
-        twitter: '🐦',
-        instagram: '📷'
-    };
-    return icons[platform] || '🔗';
 }
 
 // ====================================
 // FOOTER
 // ====================================
 function renderFooter() {
-    const footer = document.getElementById('footer');
-    if (!footer) return;
+    const footerContent = document.getElementById('footer-content');
+    if (!footerContent) return;
 
-    const currentYear = new Date().getFullYear();
+    const year = new Date().getFullYear();
 
-    footer.innerHTML = `
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4>${CONFIG.personal.name}</h4>
-                    <p>${CONFIG.personal.title}</p>
-                    <p style="margin-top: 0.5rem; color: var(--color-text-secondary); font-size: 0.95rem;">
-                        ${CONFIG.personal.location}
-                    </p>
-                </div>
-
-                <div class="footer-section">
-                    <h4>Navegación</h4>
-                    <ul class="footer-links">
-                        <li><a href="#home">Inicio</a></li>
-                        <li><a href="#about">Sobre mí</a></li>
-                        <li><a href="#experience">Experiencia</a></li>
-                        <li><a href="#contact">Contacto</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-section">
-                    <h4>Contacto rápido</h4>
-                    <ul class="footer-links">
-                        <li><a href="mailto:${CONFIG.personal.email}">${CONFIG.personal.email}</a></li>
-                        <li><a href="tel:${CONFIG.personal.phone}">${CONFIG.personal.phone}</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-section">
-                    <h4>Sígueme</h4>
-                    <div class="social-links">
-                        ${Object.entries(CONFIG.social)
-                            .filter(([_, value]) => value)
-                            .map(([platform, url]) => `
-                                <a href="${url}" target="_blank" rel="noopener noreferrer" class="social-link" title="${platform}">
-                                    ${getSocialIcon(platform)}
-                                </a>
-                            `).join('')}
-                    </div>
-                </div>
+    footerContent.innerHTML = `
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>${CONFIG.personal.name}</h3>
+                <p>${t(CONFIG.personal.title)}</p>
             </div>
 
-            <div class="footer-bottom">
-                <p>&copy; ${currentYear} ${CONFIG.personal.name}. Todos los derechos reservados.</p>
-                <p>Diseñado y desarrollado con intención</p>
+            <ul class="footer-links">
+                <li><a href="#home">${t(CONFIG.ui.nav.home)}</a></li>
+                <li><a href="#about">${t(CONFIG.ui.nav.about)}</a></li>
+                <li><a href="#experience">${t(CONFIG.ui.nav.experience)}</a></li>
+                <li><a href="#analysis">${t(CONFIG.ui.nav.analysis)}</a></li>
+                <li><a href="#contact">${t(CONFIG.ui.nav.contact)}</a></li>
+            </ul>
+
+            <div class="footer-copy">
+                <p>© ${year} ${CONFIG.personal.name}. ${t(CONFIG.ui.footer.rights)}</p>
             </div>
         </div>
     `;
 }
 
 // ====================================
-// PROJECT MODAL
+// MODAL
 // ====================================
 function initProjectModal() {
     const modal = document.getElementById('project-modal');
-    const closeBtn = document.getElementById('modal-close');
+    const closeBtn = modal?.querySelector('.modal-close');
 
-    if (!modal || !closeBtn) return;
+    if (!modal) return;
 
-    closeBtn.addEventListener('click', () => {
-        modal.classList.remove('open');
-        modal.setAttribute('aria-hidden', 'true');
-    });
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeModal);
+    }
 
     modal.addEventListener('click', (e) => {
         if (e.target === modal) {
-            modal.classList.remove('open');
-            modal.setAttribute('aria-hidden', 'true');
+            closeModal();
         }
     });
 
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            modal.classList.remove('open');
-            modal.setAttribute('aria-hidden', 'true');
+        if (e.key === 'Escape' && modal.classList.contains('open')) {
+            closeModal();
         }
     });
 }
 
-// ====================================
-// SCROLL PROGRESS BAR
-// ====================================
-function initScrollProgress() {
-    const progressBar = document.getElementById('scroll-progress');
-    if (!progressBar) return;
+function closeModal() {
+    const modal = document.getElementById('project-modal');
+    if (!modal) return;
 
-    window.addEventListener('scroll', () => {
-        const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const scrolled = windowHeight > 0 ? (window.scrollY / windowHeight) * 100 : 0;
-        progressBar.style.width = scrolled + '%';
-    });
-}
-
-// ====================================
-// BACK TO TOP BUTTON
-// ====================================
-function initBackToTop() {
-    const backToTopBtn = document.getElementById('back-to-top');
-    if (!backToTopBtn) return;
-
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 300) {
-            backToTopBtn.classList.add('visible');
-        } else {
-            backToTopBtn.classList.remove('visible');
-        }
-    });
-
-    backToTopBtn.addEventListener('click', () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    });
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('modal-open');
 }
