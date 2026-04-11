@@ -82,9 +82,18 @@ window.CONFIG = {
         title: "Microsoft: calidad, escala y disciplina en capital",
         category: "Empresa",
         status: "En seguimiento",
+        type: "Compounder de calidad",
+        horizon: "Largo plazo",
+        conviction: "Alta",
+        primaryRisk: "Valoración exigente",
         excerpt: "Negocio de altísima calidad, con ventaja competitiva clara en software empresarial, cloud y ecosistema.",
         thesis: "La tesis se apoya en recurrencia, pricing power, diversificación y una asignación de capital históricamente sólida.",
         tags: ["Moat", "Cloud", "Calidad", "Asignación de capital"],
+        catalysts: [
+            "Expansión sostenida de Azure",
+            "Monetización de IA en productividad y software",
+            "Mantenimiento de márgenes elevados"
+        ],
         detailTitle: "Microsoft como compuesto de calidad a largo plazo",
         detailText: [
             "Microsoft me parece una de las compañías más completas del mercado por la combinación de escala, recurrencia, ecosistema y disciplina operativa.",
@@ -93,9 +102,9 @@ window.CONFIG = {
             "También me interesa cómo asigna capital y cómo consigue reforzar su moat sin perder foco estratégico."
         ],
         risks: [
-            "Valoración exigente en determinados momentos del ciclo.",
-            "Dependencia parcial de expectativas altas en cloud e IA.",
-            "Riesgo regulatorio por tamaño y posición competitiva."
+            "Valoración exigente en determinados momentos del ciclo",
+            "Dependencia parcial de expectativas altas en cloud e IA",
+            "Riesgo regulatorio por tamaño y posición competitiva"
         ],
         conclusion: "La vería como una compañía excelente, aunque el punto de entrada sigue siendo clave para separar gran negocio de gran inversión."
     },
@@ -104,9 +113,18 @@ window.CONFIG = {
         title: "Lujo europeo: marca, pricing power y resiliencia",
         category: "Sector",
         status: "Estudiando",
+        type: "Sector con activos intangibles",
+        horizon: "Medio/Largo plazo",
+        conviction: "Media",
+        primaryRisk: "Dependencia de demanda global",
         excerpt: "El lujo me interesa como categoría por su capacidad de mantener márgenes altos y proteger marca en ciclos complejos.",
         thesis: "Las mejores compañías del sector suelen combinar intangibles fuertes, control de distribución y una demanda menos sensible al precio.",
         tags: ["Lujo", "Marca", "Pricing power", "Margen"],
+        catalysts: [
+            "Recuperación de demanda internacional",
+            "Fortaleza sostenida de marcas top",
+            "Capacidad de subida de precios sin deterioro de demanda"
+        ],
         detailTitle: "Por qué el lujo sigue siendo un sector tan interesante",
         detailText: [
             "El sector lujo me parece especialmente atractivo porque refleja muy bien el valor de los activos intangibles.",
@@ -115,9 +133,9 @@ window.CONFIG = {
             "Aun así, no todas las empresas del sector son iguales: hay que separar marcas excepcionales de negocios simplemente aspiracionales."
         ],
         risks: [
-            "Dependencia de demanda internacional y ciclos de consumo.",
-            "Sensibilidad a China y al turismo global.",
-            "Valoraciones que a veces descuentan demasiada perfección."
+            "Dependencia de demanda internacional y ciclos de consumo",
+            "Sensibilidad a China y al turismo global",
+            "Valoraciones que a veces descuentan demasiada perfección"
         ],
         conclusion: "Es un sector donde la calidad del activo importa muchísimo, pero también donde el precio pagado cambia por completo la rentabilidad futura."
     },
@@ -126,9 +144,18 @@ window.CONFIG = {
         title: "Tipos, liquidez y compresión de múltiplos",
         category: "Macro",
         status: "Activo",
+        type: "Marco de interpretación de mercado",
+        horizon: "Cíclico",
+        conviction: "Alta",
+        primaryRisk: "Sobreinterpretar la macro",
         excerpt: "Cuando cambia el precio del dinero, cambian también las valoraciones, el apetito por riesgo y la narrativa del mercado.",
         thesis: "Entender tipos y liquidez ayuda a interpretar por qué algunos activos se expanden o comprimen incluso sin grandes cambios operativos.",
         tags: ["Macro", "Tipos", "Liquidez", "Valoración"],
+        catalysts: [
+            "Cambios en expectativas de tipos",
+            "Movimientos en el bono libre de riesgo",
+            "Repricing de activos de duración larga"
+        ],
         detailTitle: "La importancia del precio del dinero en los mercados",
         detailText: [
             "Uno de los marcos que más me interesa seguir es la relación entre tipos de interés, liquidez y valoración.",
@@ -137,9 +164,9 @@ window.CONFIG = {
             "Por eso me gusta analizar empresas no solo por fundamentales internos, sino también dentro del régimen macro en el que cotizan."
         ],
         risks: [
-            "Sobreinterpretar el corto plazo macro.",
-            "Confundir narrativa de mercado con cambio estructural.",
-            "Usar el marco macro para justificar cualquier movimiento del precio."
+            "Sobreinterpretar el corto plazo macro",
+            "Confundir narrativa de mercado con cambio estructural",
+            "Usar el marco macro para justificar cualquier movimiento del precio"
         ],
         conclusion: "La macro no sustituye al análisis empresarial, pero sí ayuda a entender el contexto en el que se forma el precio."
     }
