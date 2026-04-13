@@ -17,7 +17,7 @@ window.CONFIG = {
         phone: "+34 600 000 000",
         location: "España",
         avatar: "assets/images/avatar.jpg",
-        cvUrl: "#"
+        cvUrl: "assets/cv-aleix-bosch.pdf"
     },
 
     stats: [
